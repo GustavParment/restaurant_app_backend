@@ -3,7 +3,7 @@ package com.gustav.restaurant_app_ea
 import com.gustav.restaurant_app_ea.model.RestaurantEntity
 import com.gustav.restaurant_app_ea.model.dto.RestaurantDto
 
-fun RestaurantEntity.toRestaurantDto(): RestaurantDto = RestaurantDto(
+fun RestaurantEntity.toRestaurantDto() = RestaurantDto(
     id = this.id,
     name = this.name,
     address = this.address,
@@ -16,7 +16,7 @@ fun RestaurantEntity.toRestaurantDto(): RestaurantDto = RestaurantDto(
 
 )
 
-fun RestaurantDto.toRestaurantEntity(): RestaurantEntity = RestaurantEntity(
+fun RestaurantDto.toRestaurantEntity() = RestaurantEntity(
     id = this.id,
     name = this.name,
     address = this.address,
