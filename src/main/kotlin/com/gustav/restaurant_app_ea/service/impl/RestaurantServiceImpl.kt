@@ -4,19 +4,17 @@ import com.gustav.restaurant_app_ea.model.RestaurantEntity
 import com.gustav.restaurant_app_ea.model.dto.RestaurantDto
 import com.gustav.restaurant_app_ea.repository.RestaurantRepository
 import com.gustav.restaurant_app_ea.service.RestaurantService
-import com.gustav.restaurant_app_ea.toRestaurantEntity
+import com.gustav.restaurant_app_ea.toEntity
 import org.bson.types.ObjectId
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class RestaurantServiceImpl (
-    private val restaurantRepository : RestaurantRepository
-)
-    :RestaurantService
+    private val restaurantRepository : RestaurantRepository) :RestaurantService
 {
     override fun save(restaurant: RestaurantDto): RestaurantEntity {
-        val restaurantEntity = restaurant.toRestaurantEntity()
+        val restaurantEntity = restaurant.toEntity()
 
         return restaurantRepository.save(restaurantEntity)
     }

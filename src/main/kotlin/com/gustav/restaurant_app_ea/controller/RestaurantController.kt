@@ -20,7 +20,7 @@ class RestaurantController(
     - FELHANTERING
     * */
 
-    @GetMapping("/get-all")
+    @GetMapping("/all")
     fun getRestaurantFromDb(): ResponseEntity<Any> {
         return try {
             ResponseEntity

@@ -1,9 +1,11 @@
 package com.gustav.restaurant_app_ea
 
 import com.gustav.restaurant_app_ea.model.RestaurantEntity
+import com.gustav.restaurant_app_ea.model.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.RestaurantDto
+import com.gustav.restaurant_app_ea.model.dto.UserDto
 
-fun RestaurantEntity.toRestaurantDto() = RestaurantDto(
+fun RestaurantEntity.toDto() = RestaurantDto(
     id = this.id,
     name = this.name,
     address = this.address,
@@ -16,7 +18,7 @@ fun RestaurantEntity.toRestaurantDto() = RestaurantDto(
 
 )
 
-fun RestaurantDto.toRestaurantEntity() = RestaurantEntity(
+fun RestaurantDto.toEntity() = RestaurantEntity(
     id = this.id,
     name = this.name,
     address = this.address,
@@ -26,4 +28,18 @@ fun RestaurantDto.toRestaurantEntity() = RestaurantEntity(
     image = this.image,
     rating = this.rating,
     menu = this.menu,
+)
+
+fun UserEntity.toDto(): UserDto = UserDto(
+    id = this.id,
+    username = this.username,
+    password =this.password,
+    roles = this.roles
+)
+
+fun UserDto.toEntity(): UserEntity = UserEntity(
+    id = this.id,
+    username = this.username,
+    password = password,
+    roles = this.roles
 )
