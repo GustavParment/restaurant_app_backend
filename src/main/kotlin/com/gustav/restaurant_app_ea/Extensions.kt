@@ -4,6 +4,7 @@ import com.gustav.restaurant_app_ea.model.RestaurantEntity
 import com.gustav.restaurant_app_ea.model.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.RestaurantDto
 import com.gustav.restaurant_app_ea.model.dto.UserDto
+import org.springframework.security.crypto.password.PasswordEncoder
 
 fun RestaurantEntity.toDto() = RestaurantDto(
     id = this.id,
@@ -37,9 +38,9 @@ fun UserEntity.toDto(): UserDto = UserDto(
     roles = this.roles
 )
 
-fun UserDto.toEntity(): UserEntity = UserEntity(
+fun UserDto.toEntity(passwordEncoder: PasswordEncoder): UserEntity = UserEntity(
     id = this.id,
     username = this.username,
-    password = password,
+    password = passwordEncoder.encode(this.password),
     roles = this.roles
 )
