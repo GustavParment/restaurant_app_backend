@@ -1,32 +1,76 @@
 package com.gustav.restaurant_app_ea.security
 
+import com.gustav.restaurant_app_ea.repository.UserRepository
+import com.gustav.restaurant_app_ea.security.jwt.JwtAuthorizationFilter
+import com.gustav.restaurant_app_ea.security.jwt.JwtUserDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Role
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
+import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
 
 @Configuration
 @EnableWebSecurity
-class AppSecurityConfig {
+class SecurityConfig {
 
     @Bean
-    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
+    fun userDetailsService(userRepository: UserRepository): UserDetailsService =
+        JwtUserDetailsService(userRepository)
+
+    @Bean
+    fun authenticationManager(config: AuthenticationConfiguration): AuthenticationManager =
+        config.authenticationManager
+
+    @Bean
+    fun authenticationProvider(userRepository: UserRepository): AuthenticationProvider =
+        DaoAuthenticationProvider()
+            .also {
+                it.setUserDetailsService(userDetailsService(userRepository))
+                it.setPasswordEncoder(encoder())
+            }
+    @Bean
+    fun securityFilterChain(
+        http: HttpSecurity,
+        jwtAuthorizationFilter: JwtAuthorizationFilter,
+        authenticationProvider: AuthenticationProvider
+    ): SecurityFilterChain
+    {
         http
-            .csrf(Customizer { obj: CsrfConfigurer<HttpSecurity> -> obj.disable() })
-            .authorizeHttpRequests { auth ->
-                auth
+            .csrf{ it.disable() }
+            .authorizeHttpRequests {
+                it  .requestMatchers("/api/v1/auth/**").permitAll()
                     .requestMatchers("/api/v1/restaurant/**").permitAll()
                     .requestMatchers("/api/v1/user/create").permitAll()
-                    .requestMatchers("/api/v1/user/page").hasRole("USER")
-                    .requestMatchers("/api/v1/admin/page").hasRole("ADMIN")
-                    .anyRequest().authenticated()
+                    .requestMatchers("/api/v1/test/user").hasRole("USER")
+                    .requestMatchers("/api/v1/test/admin").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/test/super_admin").hasRole("SUPER_ADMIN")
+                    .anyRequest().fullyAuthenticated()
+
 
             }
+            .sessionManagement{
+                it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
+            .authenticationProvider(authenticationProvider)
+            .addFilterBefore(jwtAuthorizationFilter,
+                UsernamePasswordAuthenticationFilter::class.java
+            )
+
         return http.build()
     }
+
+    @Bean
+    fun encoder(): PasswordEncoder = BCryptPasswordEncoder()
 }

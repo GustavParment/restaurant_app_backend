@@ -35,12 +35,12 @@ fun UserEntity.toDto(): UserDto = UserDto(
     id = this.id,
     username = this.username,
     password =this.password,
-    roles = this.roles
+    role = this.role
 )
 
 fun UserDto.toEntity(passwordEncoder: PasswordEncoder): UserEntity = UserEntity(
     id = this.id,
     username = this.username,
     password = passwordEncoder.encode(this.password),
-    roles = this.roles
+    role = this.role
 )

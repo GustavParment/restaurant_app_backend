@@ -10,6 +10,7 @@ data class UserEntity(
     @Id var id: ObjectId? = ObjectId(),
     val username: String,
     val password: String,
-    val roles: Role
-    ) {
+    val role: Role
+    )
+{
 }

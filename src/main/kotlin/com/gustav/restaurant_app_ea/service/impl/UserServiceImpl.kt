@@ -5,6 +5,7 @@ import com.gustav.restaurant_app_ea.model.dto.UserDto
 import com.gustav.restaurant_app_ea.repository.UserRepository
 import com.gustav.restaurant_app_ea.service.UserService
 import com.gustav.restaurant_app_ea.toEntity
+import org.bson.types.ObjectId
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -23,6 +24,14 @@ class UserServiceImpl(
 
     override fun list(): List<UserEntity> {
         return userRepository.findAll()
+    }
+
+    override fun findByUsername(username: String): UserEntity? {
+        return userRepository.findByUsername(username)
+    }
+
+    override fun findById(id: ObjectId): UserEntity? {
+        return userRepository.findById(id).orElseThrow()
     }
 
 }
