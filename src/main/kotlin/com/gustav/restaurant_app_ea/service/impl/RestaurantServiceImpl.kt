@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class RestaurantServiceImpl (
-    private val restaurantRepository : RestaurantRepository) :RestaurantService
+    private val restaurantRepository : RestaurantRepository
+) : RestaurantService
 {
     override fun save(restaurant: RestaurantDto): RestaurantEntity {
         val restaurantEntity = restaurant.toEntity()

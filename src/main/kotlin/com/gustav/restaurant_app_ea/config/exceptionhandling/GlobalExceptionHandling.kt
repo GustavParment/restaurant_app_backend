@@ -9,6 +9,7 @@ import org.springframework.web.client.HttpServerErrorException.InternalServerErr
 
 class UserNotFoundException(message: String) : RuntimeException(message)
 class UserAlreadyExistsException(message: String) : RuntimeException(message)
+class InvalidRestaurantDataException(message: String) : RuntimeException(message)
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
@@ -34,5 +35,13 @@ class GlobalExceptionHandler {
         return ResponseEntity
             .status(HttpStatus.CONFLICT)
             .body(ex.message)
+    }
+
+    @ExceptionHandler(InvalidRestaurantDataException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleInvalidRestaurantDataException(ex: InvalidRestaurantDataException): ResponseEntity<String> {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body("Invalid data: ${ex.message}")
     }
 }
