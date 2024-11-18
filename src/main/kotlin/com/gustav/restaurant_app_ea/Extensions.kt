@@ -1,13 +1,16 @@
 package com.gustav.restaurant_app_ea
 
-import com.gustav.restaurant_app_ea.model.RestaurantEntity
-import com.gustav.restaurant_app_ea.model.UserEntity
-import com.gustav.restaurant_app_ea.model.dto.RestaurantDto
-import com.gustav.restaurant_app_ea.model.dto.UserDto
+import com.gustav.restaurant_app_ea.model.restaurant.RestaurantEntity
+import com.gustav.restaurant_app_ea.model.user.UserEntity
+import com.gustav.restaurant_app_ea.model.dto.restaurant.RestaurantDto
+import com.gustav.restaurant_app_ea.model.dto.user.UserDto
 import org.springframework.security.crypto.password.PasswordEncoder
 import com.gustav.restaurant_app_ea.authorities.*;
-import com.gustav.restaurant_app_ea.model.ReservationEntity
-import com.gustav.restaurant_app_ea.model.dto.ReservationDto
+import com.gustav.restaurant_app_ea.model.restaurant.ReservationEntity
+import com.gustav.restaurant_app_ea.model.dto.restaurant.ReservationDto
+import com.gustav.restaurant_app_ea.model.dto.restaurant.ReviewDto
+import com.gustav.restaurant_app_ea.model.restaurant.Review
+import java.time.LocalDateTime
 
 fun RestaurantEntity.toDto() = RestaurantDto(
     id = this.id,
@@ -19,6 +22,7 @@ fun RestaurantEntity.toDto() = RestaurantDto(
     image = this.image,
     rating = this.rating,
     menu = this.menu,
+    review =this.review,
 
 )
 
@@ -32,6 +36,7 @@ fun RestaurantDto.toEntity() = RestaurantEntity(
     image = this.image,
     rating = this.rating,
     menu = this.menu,
+    review = this.review,
 )
 
 fun UserEntity.toDto(): UserDto = UserDto(
@@ -66,9 +71,19 @@ fun UserDto.toAdminEntity(passwordEncoder: PasswordEncoder): UserEntity = UserEn
     role = Role.ADMIN
 )
 
-fun ReservationDto.toEntity(): ReservationEntity = ReservationEntity(
+fun Review.toDto(): ReviewDto = ReviewDto(
+    restaurantId = this.restaurantId,
+    userId = this.userId,
+    comment = this.comment,
+    userName = this.userName,
+    rating = this.rating,
+)
+
+fun ReviewDto.toEntity(): Review = Review(
     userId = this.userId,
     restaurantId = this.restaurantId,
-    reservationDate = this.reservationDate,
-    guests = this.guests
+    comment = this.comment,
+    userName = this.userName,
+    rating = this.rating,
+    date = LocalDateTime.now()
 )

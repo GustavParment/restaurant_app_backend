@@ -1,9 +1,9 @@
 package com.gustav.restaurant_app_ea.controller.user
 
 import com.gustav.restaurant_app_ea.config.exceptionhandling.UserAlreadyExistsException
-import com.gustav.restaurant_app_ea.model.UserEntity
-import com.gustav.restaurant_app_ea.model.dto.UserDto
-import com.gustav.restaurant_app_ea.service.UserService
+import com.gustav.restaurant_app_ea.model.user.UserEntity
+import com.gustav.restaurant_app_ea.model.dto.user.UserDto
+import com.gustav.restaurant_app_ea.service.user.UserService
 import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

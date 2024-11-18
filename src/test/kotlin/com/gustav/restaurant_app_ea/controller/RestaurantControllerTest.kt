@@ -1,9 +1,9 @@
 package com.gustav.restaurant_app_ea.controller
 
 import com.gustav.restaurant_app_ea.controller.restaurant.RestaurantController
-import com.gustav.restaurant_app_ea.model.RestaurantEntity
-import com.gustav.restaurant_app_ea.model.dto.RestaurantDto
-import com.gustav.restaurant_app_ea.service.RestaurantService
+import com.gustav.restaurant_app_ea.model.restaurant.RestaurantEntity
+import com.gustav.restaurant_app_ea.model.dto.restaurant.RestaurantDto
+import com.gustav.restaurant_app_ea.service.restaurant.RestaurantService
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach

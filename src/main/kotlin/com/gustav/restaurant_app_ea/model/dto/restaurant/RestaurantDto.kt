@@ -1,5 +1,6 @@
-package com.gustav.restaurant_app_ea.model.dto
+package com.gustav.restaurant_app_ea.model.dto.restaurant
 
+import com.gustav.restaurant_app_ea.model.restaurant.Review
 import org.bson.types.ObjectId
 
 data class RestaurantDto(
@@ -11,7 +12,8 @@ data class RestaurantDto(
     val description: String,
     val image: String,
     val rating: String,
-    val menu: List<String>
+    val menu: List<String>,
+    val review: List<Review>
 ) {
 
 }

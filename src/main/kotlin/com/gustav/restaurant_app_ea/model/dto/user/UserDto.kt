@@ -1,4 +1,4 @@
-package com.gustav.restaurant_app_ea.model.dto
+package com.gustav.restaurant_app_ea.model.dto.user
 
 
 data class UserDto(

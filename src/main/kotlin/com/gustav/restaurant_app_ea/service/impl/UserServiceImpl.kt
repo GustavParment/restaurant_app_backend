@@ -1,9 +1,9 @@
 package com.gustav.restaurant_app_ea.service.impl
 
-import com.gustav.restaurant_app_ea.model.UserEntity
-import com.gustav.restaurant_app_ea.model.dto.UserDto
-import com.gustav.restaurant_app_ea.repository.UserRepository
-import com.gustav.restaurant_app_ea.service.UserService
+import com.gustav.restaurant_app_ea.model.user.UserEntity
+import com.gustav.restaurant_app_ea.model.dto.user.UserDto
+import com.gustav.restaurant_app_ea.repository.user.UserRepository
+import com.gustav.restaurant_app_ea.service.user.UserService
 import com.gustav.restaurant_app_ea.toAdminEntity
 import com.gustav.restaurant_app_ea.toEntity
 import org.bson.types.ObjectId

@@ -1,4 +1,4 @@
-package com.gustav.restaurant_app_ea.model
+package com.gustav.restaurant_app_ea.model.restaurant
 
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id

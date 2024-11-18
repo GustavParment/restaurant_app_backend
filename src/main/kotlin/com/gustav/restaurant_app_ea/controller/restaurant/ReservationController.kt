@@ -1,8 +1,8 @@
 package com.gustav.restaurant_app_ea.controller.restaurant
 
-import com.gustav.restaurant_app_ea.model.ReservationEntity
-import com.gustav.restaurant_app_ea.model.dto.ReservationDto
-import com.gustav.restaurant_app_ea.service.ReservationService
+import com.gustav.restaurant_app_ea.model.restaurant.ReservationEntity
+import com.gustav.restaurant_app_ea.model.dto.restaurant.ReservationDto
+import com.gustav.restaurant_app_ea.service.restaurant.ReservationService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping

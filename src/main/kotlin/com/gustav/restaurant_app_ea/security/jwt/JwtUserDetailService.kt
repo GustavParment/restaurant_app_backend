@@ -1,7 +1,7 @@
 package com.gustav.restaurant_app_ea.security.jwt
 
-import com.gustav.restaurant_app_ea.model.UserEntity
-import com.gustav.restaurant_app_ea.repository.UserRepository
+import com.gustav.restaurant_app_ea.model.user.UserEntity
+import com.gustav.restaurant_app_ea.repository.user.UserRepository
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

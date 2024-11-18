@@ -1,16 +1,13 @@
 package com.gustav.restaurant_app_ea.service.impl
 
-import com.gustav.restaurant_app_ea.model.ReservationEntity
-import com.gustav.restaurant_app_ea.model.RestaurantEntity
-import com.gustav.restaurant_app_ea.model.UserEntity
-import com.gustav.restaurant_app_ea.repository.ReservationRepository
-import com.gustav.restaurant_app_ea.repository.RestaurantRepository
-import com.gustav.restaurant_app_ea.repository.UserRepository
-import com.gustav.restaurant_app_ea.service.ReservationService
+import com.gustav.restaurant_app_ea.model.restaurant.ReservationEntity
+import com.gustav.restaurant_app_ea.repository.resturant.ReservationRepository
+import com.gustav.restaurant_app_ea.repository.resturant.RestaurantRepository
+import com.gustav.restaurant_app_ea.repository.user.UserRepository
+import com.gustav.restaurant_app_ea.service.restaurant.ReservationService
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Private
 
 @Service
 class ReservationServiceImpl(

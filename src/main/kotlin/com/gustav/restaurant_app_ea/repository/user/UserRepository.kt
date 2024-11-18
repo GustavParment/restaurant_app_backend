@@ -1,6 +1,6 @@
-package com.gustav.restaurant_app_ea.repository
+package com.gustav.restaurant_app_ea.repository.user
 
-import com.gustav.restaurant_app_ea.model.UserEntity
+import com.gustav.restaurant_app_ea.model.user.UserEntity
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository

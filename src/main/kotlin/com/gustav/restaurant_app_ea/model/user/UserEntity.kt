@@ -1,4 +1,4 @@
-package com.gustav.restaurant_app_ea.model
+package com.gustav.restaurant_app_ea.model.user
 
 import com.gustav.restaurant_app_ea.authorities.Role
 import org.bson.types.ObjectId

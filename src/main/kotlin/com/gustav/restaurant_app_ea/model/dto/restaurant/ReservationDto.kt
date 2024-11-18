@@ -1,9 +1,6 @@
-package com.gustav.restaurant_app_ea.model.dto
+package com.gustav.restaurant_app_ea.model.dto.restaurant
 
-import com.gustav.restaurant_app_ea.model.RestaurantEntity
-import com.gustav.restaurant_app_ea.model.UserEntity
 import org.bson.types.ObjectId
-import org.springframework.data.annotation.Id
 import java.time.LocalDateTime
 
 data class ReservationDto(

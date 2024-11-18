@@ -1,6 +1,6 @@
 package com.gustav.restaurant_app_ea.security
 
-import com.gustav.restaurant_app_ea.repository.UserRepository
+import com.gustav.restaurant_app_ea.repository.user.UserRepository
 import com.gustav.restaurant_app_ea.security.jwt.JwtAuthorizationFilter
 import com.gustav.restaurant_app_ea.security.jwt.JwtUserDetailsService
 import org.springframework.context.annotation.Bean
@@ -8,11 +8,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -56,6 +54,7 @@ class SecurityConfig {
                     .requestMatchers("/api/v1/user/signup").permitAll()
                     .requestMatchers("/api/v1/admin/create").hasRole("SUPER_ADMIN")
                     .requestMatchers("/api/v1/reservation/**").hasRole("USER")
+                    .requestMatchers("/api/v1/review/**").permitAll()
 //                    .requestMatchers("/api/v1/test/user").hasRole("USER")
 //                    .requestMatchers("/api/v1/test/admin").hasRole("ADMIN")
 //                    .requestMatchers("/api/v1/test/super_admin").hasRole("SUPER_ADMIN")
