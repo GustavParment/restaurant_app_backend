@@ -9,19 +9,17 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.client.HttpServerErrorException.InternalServerError
 
 @RestController
 @RequestMapping("/api/v1/user")
 class UserController(
-    val userService: UserService
+   private val userService: UserService
 ) {
 
-    @PostMapping("/create")
+    @PostMapping("/signup")
     fun  create(@RequestBody user: UserDto): ResponseEntity <Any> {
-        val userExists: Boolean = userService.findByUsername(
-            user.username
-        ) != null
+        val userExists: Boolean =
+            userService.findByUsername(user.username) != null
 
         if (userExists) {
             throw UserAlreadyExistsException("Username already exists try another username")

@@ -50,12 +50,14 @@ class SecurityConfig {
         http
             .csrf{ it.disable() }
             .authorizeHttpRequests {
-                it  .requestMatchers("/api/v1/auth/**").permitAll()
+                it
+                    .requestMatchers("/api/v1/auth/login").permitAll()
                     .requestMatchers("/api/v1/restaurant/**").permitAll()
-                    .requestMatchers("/api/v1/user/create").permitAll()
-                    .requestMatchers("/api/v1/test/user").hasRole("USER")
-                    .requestMatchers("/api/v1/test/admin").hasRole("ADMIN")
-                    .requestMatchers("/api/v1/test/super_admin").hasRole("SUPER_ADMIN")
+                    .requestMatchers("/api/v1/user/signup").permitAll()
+                    .requestMatchers("/api/v1/admin/create").hasRole("SUPER_ADMIN")
+//                    .requestMatchers("/api/v1/test/user").hasRole("USER")
+//                    .requestMatchers("/api/v1/test/admin").hasRole("ADMIN")
+//                    .requestMatchers("/api/v1/test/super_admin").hasRole("SUPER_ADMIN")
                     .anyRequest().fullyAuthenticated()
 
 

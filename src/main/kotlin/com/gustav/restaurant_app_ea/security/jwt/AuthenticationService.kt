@@ -39,6 +39,13 @@ class AuthenticationService(
         )
     }
 
+    fun logout(token: String){
+        if(refreshTokenRepository.findUserDetailsByToken(token) != null){
+            refreshTokenRepository.remove(token)
+        }else {
+            throw IllegalStateException("Invalid Token")
+        }
+    }
     fun refreshAccessToken(refreshToken: String): String {
         val username = tokenService.extractUsername(refreshToken)
 

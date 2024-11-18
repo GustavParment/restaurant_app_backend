@@ -32,15 +32,41 @@ class AuthController(
         }
     }
 
+    @PostMapping("/logout")
+    fun logout(@RequestBody token: String)
+    : ResponseEntity<String>
+    {
+        return try {
+            authenticationService.logout(token)
+            ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Successfully logout")
+        }catch (
+            e: Exception
+        ){
+            ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(e.message)
+        }
+
+    }
+
+
     @PostMapping("/refresh")
     fun refreshToken(@RequestBody refreshToken: String)
     : ResponseEntity<String>
     {
         return try {
             val newAccessToken = authenticationService.refreshAccessToken(refreshToken)
-            ResponseEntity.status(HttpStatus.OK).body(newAccessToken)
-        } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token")
+            ResponseEntity
+                .status(HttpStatus.OK)
+                .body(newAccessToken)
+        } catch (
+            e: Exception
+        ){
+            ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body("Invalid refresh token")
         }
     }
 }

@@ -5,6 +5,7 @@ import com.gustav.restaurant_app_ea.model.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.RestaurantDto
 import com.gustav.restaurant_app_ea.model.dto.UserDto
 import org.springframework.security.crypto.password.PasswordEncoder
+import com.gustav.restaurant_app_ea.authorities.*;
 
 fun RestaurantEntity.toDto() = RestaurantDto(
     id = this.id,
@@ -32,15 +33,33 @@ fun RestaurantDto.toEntity() = RestaurantEntity(
 )
 
 fun UserEntity.toDto(): UserDto = UserDto(
-    id = this.id,
     username = this.username,
     password =this.password,
-    role = this.role
+    email = this.email,
+    firstName = this.firstName,
+    lastName = this.lastName,
+    birthday = this.birthday,
+
 )
 
 fun UserDto.toEntity(passwordEncoder: PasswordEncoder): UserEntity = UserEntity(
-    id = this.id,
     username = this.username,
     password = passwordEncoder.encode(this.password),
-    role = this.role
+    email = this.email,
+    firstName = this.firstName,
+    lastName = this.lastName,
+    birthday = this.birthday,
+    role = Role.USER
+
+
+)
+
+fun UserDto.toAdminEntity(passwordEncoder: PasswordEncoder): UserEntity = UserEntity(
+    username = this.username,
+    password = passwordEncoder.encode(this.password),
+    email = this.email,
+    firstName = this.firstName,
+    lastName = this.lastName,
+    birthday = this.birthday,
+    role = Role.ADMIN
 )

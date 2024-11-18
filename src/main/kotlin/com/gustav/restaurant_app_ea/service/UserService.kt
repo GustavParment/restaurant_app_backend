@@ -10,4 +10,5 @@ interface UserService {
     fun list(): List<UserEntity>
     fun findByUsername(username: String): UserEntity?
     fun findById(id: ObjectId): UserEntity?
+    fun createAdmin(user: UserDto): UserEntity
 }

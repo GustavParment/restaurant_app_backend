@@ -4,6 +4,7 @@ import com.gustav.restaurant_app_ea.model.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.UserDto
 import com.gustav.restaurant_app_ea.repository.UserRepository
 import com.gustav.restaurant_app_ea.service.UserService
+import com.gustav.restaurant_app_ea.toAdminEntity
 import com.gustav.restaurant_app_ea.toEntity
 import org.bson.types.ObjectId
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -32,6 +33,11 @@ class UserServiceImpl(
 
     override fun findById(id: ObjectId): UserEntity? {
         return userRepository.findById(id).orElseThrow()
+    }
+
+    override fun createAdmin(user: UserDto): UserEntity {
+        val adminEntity = user.toAdminEntity(passwordEncoder);
+        return userRepository.save(adminEntity)
     }
 
 }
