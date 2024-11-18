@@ -1,4 +1,4 @@
-package com.gustav.restaurant_app_ea.controller
+package com.gustav.restaurant_app_ea.controller.restaurant
 
 import com.gustav.restaurant_app_ea.model.RestaurantEntity
 import com.gustav.restaurant_app_ea.model.dto.RestaurantDto

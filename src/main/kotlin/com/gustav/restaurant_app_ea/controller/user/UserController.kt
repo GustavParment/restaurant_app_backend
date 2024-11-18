@@ -1,4 +1,4 @@
-package com.gustav.restaurant_app_ea.controller
+package com.gustav.restaurant_app_ea.controller.user
 
 import com.gustav.restaurant_app_ea.config.exceptionhandling.UserAlreadyExistsException
 import com.gustav.restaurant_app_ea.model.UserEntity

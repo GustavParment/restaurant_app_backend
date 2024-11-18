@@ -1,4 +1,4 @@
-package com.gustav.restaurant_app_ea.controller
+package com.gustav.restaurant_app_ea.controller.user
 
 import com.gustav.restaurant_app_ea.security.jwt.AuthenticationRequest
 import com.gustav.restaurant_app_ea.security.jwt.AuthenticationResponse

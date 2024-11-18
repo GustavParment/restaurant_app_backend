@@ -12,4 +12,5 @@ interface RestaurantService {
     fun update(restaurant : RestaurantEntity) : RestaurantEntity
     fun deleteById( id : ObjectId) : Boolean
 
+
 }
