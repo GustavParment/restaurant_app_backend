@@ -1,9 +1,8 @@
-package com.gustav.restaurant_app_ea.service.impl
+package com.gustav.restaurant_app_ea.service.restaurant
 
 import com.gustav.restaurant_app_ea.model.restaurant.RestaurantEntity
 import com.gustav.restaurant_app_ea.model.dto.restaurant.RestaurantDto
 import com.gustav.restaurant_app_ea.repository.resturant.RestaurantRepository
-import com.gustav.restaurant_app_ea.service.restaurant.RestaurantService
 import com.gustav.restaurant_app_ea.toEntity
 import org.bson.types.ObjectId
 import org.springframework.data.repository.findByIdOrNull

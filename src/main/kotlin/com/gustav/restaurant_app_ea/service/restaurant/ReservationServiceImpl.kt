@@ -1,10 +1,9 @@
-package com.gustav.restaurant_app_ea.service.impl
+package com.gustav.restaurant_app_ea.service.restaurant
 
 import com.gustav.restaurant_app_ea.model.restaurant.ReservationEntity
 import com.gustav.restaurant_app_ea.repository.resturant.ReservationRepository
 import com.gustav.restaurant_app_ea.repository.resturant.RestaurantRepository
 import com.gustav.restaurant_app_ea.repository.user.UserRepository
-import com.gustav.restaurant_app_ea.service.restaurant.ReservationService
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime

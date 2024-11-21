@@ -14,7 +14,21 @@ data class UserEntity(
     val firstName:String,
     val lastName:String,
     val birthday:String,
-    val role: Role
+    val role: Role,
+    val profile: List<UserProfile>? = emptyList()
     )
+{
+    fun toUser(){
+        TODO("Fixa Macthings logik och Profil data")
+    }
+}
+
+data class UserProfile(
+    val avatar: String,
+    val bio: String,
+    val aboutMe: String,
+    var hobbies: MutableList<String>
+
+)
 {
 }

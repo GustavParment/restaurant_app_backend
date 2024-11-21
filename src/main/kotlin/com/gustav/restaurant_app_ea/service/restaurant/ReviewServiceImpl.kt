@@ -1,9 +1,8 @@
-package com.gustav.restaurant_app_ea.service.impl
+package com.gustav.restaurant_app_ea.service.restaurant
 
 import com.gustav.restaurant_app_ea.model.dto.restaurant.ReviewDto
 import com.gustav.restaurant_app_ea.model.restaurant.Review
 import com.gustav.restaurant_app_ea.repository.resturant.ReviewRepository
-import com.gustav.restaurant_app_ea.service.restaurant.ReviewService
 import com.gustav.restaurant_app_ea.toEntity
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service

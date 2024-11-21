@@ -46,6 +46,7 @@ fun UserEntity.toDto(): UserDto = UserDto(
     firstName = this.firstName,
     lastName = this.lastName,
     birthday = this.birthday,
+    profile = emptyList()
 
 )
 
@@ -56,7 +57,8 @@ fun UserDto.toEntity(passwordEncoder: PasswordEncoder): UserEntity = UserEntity(
     firstName = this.firstName,
     lastName = this.lastName,
     birthday = this.birthday,
-    role = Role.USER
+    role = Role.USER,
+    profile = emptyList()
 
 
 )
@@ -68,7 +70,20 @@ fun UserDto.toAdminEntity(passwordEncoder: PasswordEncoder): UserEntity = UserEn
     firstName = this.firstName,
     lastName = this.lastName,
     birthday = this.birthday,
-    role = Role.ADMIN
+    role = Role.ADMIN,
+    profile = emptyList()
+)
+
+fun UserDto.toSuperAdminEntity(passwordEncoder: PasswordEncoder): UserEntity = UserEntity(
+    username = this.username,
+    password = passwordEncoder.encode(this.password),
+    email = this.email,
+    firstName = this.firstName,
+    lastName = this.lastName,
+    birthday = this.birthday,
+    role = Role.SUPER_ADMIN,
+    profile = emptyList()
+
 )
 
 fun Review.toDto(): ReviewDto = ReviewDto(
