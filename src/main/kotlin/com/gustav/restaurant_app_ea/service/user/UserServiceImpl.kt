@@ -4,6 +4,7 @@ import com.gustav.restaurant_app_ea.authorities.Role
 import com.gustav.restaurant_app_ea.config.exceptionhandling.UserNotFoundException
 import com.gustav.restaurant_app_ea.model.user.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.user.UserDto
+import com.gustav.restaurant_app_ea.model.dto.user.UserFavoriteFoodInputDto
 import com.gustav.restaurant_app_ea.model.dto.user.UserHobbyInputDto
 import com.gustav.restaurant_app_ea.repository.user.UserRepository
 import com.gustav.restaurant_app_ea.toAdminEntity
@@ -52,6 +53,17 @@ class UserServiceImpl(
             profile.hobbies = userHobbyInputDto.hobbies.toMutableList()
         }
         userRepository.save(userEntity)
+    }
+
+    override fun updateFavoriteFood(userId: ObjectId, userFavoriteFoodInputDto: UserFavoriteFoodInputDto) {
+        val userEntity = userRepository.findById(userId)
+            .orElseThrow{
+                UserNotFoundException("User not found")
+            }
+        userEntity.profile?.forEach{ profile ->
+            profile.favoriteFood.clear()
+            profile.favoriteFood = userFavoriteFoodInputDto.favoriteFood.toMutableList()
+        }
     }
 
     fun createSuperAdmin(): UserEntity {

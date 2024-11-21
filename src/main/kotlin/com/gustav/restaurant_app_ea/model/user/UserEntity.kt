@@ -19,14 +19,14 @@ data class UserEntity(
     )
 {
     fun toUser(){
-        TODO("Fixa Macthings logik och Profil data")
+        TODO("Fixa Macthings logik")
     }
 }
 
 data class UserProfile(
     val avatar: String,
     val bio: String,
-    val aboutMe: String,
+    var favoriteFood: MutableList<String>,
     var hobbies: MutableList<String>
 
 )

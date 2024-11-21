@@ -4,6 +4,7 @@ import com.gustav.restaurant_app_ea.config.exceptionhandling.UserAlreadyExistsEx
 import com.gustav.restaurant_app_ea.model.user.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.user.UserDto
 import com.gustav.restaurant_app_ea.service.user.UserService
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter
 import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -53,6 +54,12 @@ class UserController(
 
         TODO("Fel hantering och testa endpoints ")
     }
+    @RateLimiter(name = "rateLimiter")
+    @GetMapping("/match/{id}")
+    fun getMatch(){
+
+    }
+
 
 
 
