@@ -15,31 +15,32 @@ class MatchServiceImpl(
     private val matchRepository: MatchRepository
 ): MatchService
 {
-    override fun createMatch(user1: UserEntity, user2: UserEntity): MatchEntity {
-        if (!hasCommonHobby(user1,user2) && !hasCommonFood(user1,user2)){
-            throw IllegalArgumentException("User do not have common hobbys & food")
-        }
-        val matchEntity = MatchEntity(
-            userId1 = user1.id ?: throw UserNotFoundException("User not found "),
-            userId2 = user2.id ?: throw UserNotFoundException("User not found "),
-            matchStatus = MatchStatus.WAITING,
+    override fun createMatch(userId1: ObjectId, userId2: ObjectId): MatchEntity {
+        val user1 = userRepository.findById(userId1)
+            .orElseThrow { UserNotFoundException("User with ID $userId1 not found") }
+        val user2 = userRepository.findById(userId2)
+            .orElseThrow { UserNotFoundException("User with ID $userId2 not found") }
 
+        if (!hasCommonHobby(user1, user2) && !hasCommonFood(user1, user2)) {
+            throw IllegalArgumentException("Users do not have common hobbies or favorite foods")
+        }
+
+        val matchEntity = MatchEntity(
+            userId1 = user1.id ?: throw UserNotFoundException("User not found"),
+            userId2 = user2.id ?: throw UserNotFoundException("User not found"),
+            matchStatus = MatchStatus.WAITING,
         )
         val savedMatch = matchRepository.save(matchEntity)
 
         val usersToUpdate = listOf(user1, user2)
-        val updatedUsers = usersToUpdate.map {
-            updateUserMatchList(it, savedMatch.id)
-        }
+        val updatedUsers = usersToUpdate.map { updateUserMatchList(it, savedMatch.id) }
         userRepository.saveAll(updatedUsers)
 
         return savedMatch
     }
 
-    override fun getMatch(user1: UserEntity, user2: UserEntity): List<MatchEntity> {
-        val userId1 = user1.id ?: throw UserNotFoundException("User not found ")
-        val userId2 = user2.id ?: throw UserNotFoundException("User not found ")
 
+    override fun getMatch(userId1: ObjectId, userId2: ObjectId): List<MatchEntity> {
         return matchRepository.findAllByUserId1AndUserId2(userId1, userId2) +
                 matchRepository.findAllByUserId1AndUserId2(userId2, userId1)
     }
