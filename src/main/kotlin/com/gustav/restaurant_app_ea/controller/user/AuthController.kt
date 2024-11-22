@@ -24,7 +24,9 @@ class AuthController(
             val authenticationResponse: AuthenticationResponse =
                 authenticationService.authentication(authenticationRequest)
 
-            ResponseEntity.status(HttpStatus.OK).body(authenticationResponse)
+            ResponseEntity
+                .status(HttpStatus.OK)
+                .body(authenticationResponse)
         } catch (e: Exception) {
             ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 AuthenticationResponse("", "")
@@ -41,11 +43,9 @@ class AuthController(
             ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Successfully logout")
-        }catch (
-            e: Exception
-        ){
+        }catch (e: Exception){
             ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.FORBIDDEN)
                 .body(e.message)
         }
 

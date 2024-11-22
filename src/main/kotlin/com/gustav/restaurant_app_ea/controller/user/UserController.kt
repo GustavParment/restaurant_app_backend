@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/user")
 class UserController(
    private val userService: UserService
+
 ) {
 
     @PostMapping("/signup")
@@ -34,6 +35,7 @@ class UserController(
         } catch (e: Exception) {
             throw Exception("Internal Server Error")
         }
+        TODO("Skriva Tester/ Se över felhantering")
 
 
     }
@@ -43,7 +45,7 @@ class UserController(
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(userService.list())
-        TODO("Fel hantering!")
+
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -52,11 +54,12 @@ class UserController(
         return ResponseEntity
             .status(HttpStatus.OK).body(userService.findById(id))
 
-        TODO("Fel hantering och testa endpoints ")
+
     }
     @RateLimiter(name = "rateLimiter")
     @GetMapping("/match/{id}")
     fun getMatch(){
+
 
     }
 

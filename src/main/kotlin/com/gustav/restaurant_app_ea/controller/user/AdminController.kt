@@ -23,10 +23,16 @@ class AdminController(
     fun createAdmin(@RequestBody admin: UserDto)
     : ResponseEntity<Any>
     {
-        return ResponseEntity
-            .status(HttpStatus.CREATED)
-            .body(userService.createAdmin(admin))
+        return try {
+            ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(userService.createAdmin(admin))
+
+        } catch (e:Exception){
+            ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(e.message)
+        }
 
     }
-
 }

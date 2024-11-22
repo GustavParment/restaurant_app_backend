@@ -38,7 +38,8 @@ class RestaurantControllerTest {
             description = "Test Description",
             image = "test-image-url",
             rating = "5.0",
-            menu = listOf("Item1", "Item2")
+            menu = listOf("Item1", "Item2"),
+            review = emptyList()
         )
 
     }
@@ -53,7 +54,8 @@ class RestaurantControllerTest {
             description = "Test Description",
             image = "test-image-url",
             rating = "5.0",
-            menu = listOf("Item1", "Item2")
+            menu = listOf("Item1", "Item2"),
+            review = emptyList()
         )
     }
 
