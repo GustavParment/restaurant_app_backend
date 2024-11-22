@@ -15,7 +15,8 @@ data class UserEntity(
     val lastName:String,
     val birthday:String,
     val role: Role,
-    val profile: List<UserProfile>? = emptyList()
+    val profile: List<UserProfile>? = emptyList(),
+    val matchListId: List<ObjectId>?= emptyList()
     )
 {
     fun toUser(){

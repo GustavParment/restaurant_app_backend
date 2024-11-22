@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface MatchRepository: MongoRepository<MatchEntity, ObjectId> {
-    fun findByUserId1OrUserId2(userId1: ObjectId, userId2 : ObjectId): List<MatchEntity>
+    fun findAllByUserId1OrUserId2(userId1: ObjectId, userId2 : ObjectId): List<MatchEntity>
+    fun findAllByUserId1AndUserId2(userId1: ObjectId, userId2: ObjectId): List<MatchEntity>
 }

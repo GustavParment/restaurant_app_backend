@@ -12,11 +12,8 @@ data class MatchEntity(
     val userId2: ObjectId,
     val matchStatus: MatchStatus,
     val matchDate: Date = Date(),
-    val commonHobby: List<String>?,
-    val commonFood: List<String>?,
-
-
     )
+
 enum class MatchStatus{
     WAITING, ACCEPTED, DECLINED,
 }
