@@ -16,17 +16,18 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
+@Suppress("UNREACHABLE_CODE")
 @RestController
 @RequestMapping("/api/v1/user")
 class UserController(
     private val userService: UserService,
-    private val userRepository: UserRepository,
     private val matchService: MatchService
 
 ) {
 
     @PostMapping("/signup")
     fun  create(@RequestBody user: UserDto): ResponseEntity <Any> {
+
         val userExists: Boolean =
             userService.findByUsername(user.username) != null
 
@@ -42,8 +43,15 @@ class UserController(
         } catch (e: Exception) {
             throw Exception("Internal Server Error")
         }
+        TODO("""
+                -Skriva Klart metoden
+                -Skriva tester för alla endpoints 3/10
+                -Se över Felhantering
+            """.trimIndent())
     }
 
+    @RateLimiter(name = "rateLimiter")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/all")
     fun getAll(): ResponseEntity<List<UserEntity>>{
         return ResponseEntity
@@ -52,12 +60,18 @@ class UserController(
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/{id}")
     fun getById(@PathVariable("id") id: ObjectId): ResponseEntity<UserEntity> {
-        return ResponseEntity
-            .status(HttpStatus.OK).body(userService.findById(id))
-
+        return try {
+            ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.findById(id))
+        }catch (e:Exception){
+            ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null)
+        }
 
     }
 
@@ -77,11 +91,25 @@ class UserController(
             ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(null)
-            TODO("""
-                -Skriva Klart metoden
-                -Skriva tester för alla endpoints
-                -Se över Felhantering
-            """.trimIndent())
+        }
+    }
+
+    @RateLimiter(name = "rateLimiter")
+    @PreAuthorize("hasRole('USEr')")
+    @GetMapping("/{userId1}/{userId2}")
+    fun getMatch(
+        @PathVariable userId1: ObjectId,
+        @PathVariable userId2: ObjectId
+    ): ResponseEntity<List<MatchEntity>>
+    {
+        return try {
+            ResponseEntity
+                .status(HttpStatus.OK)
+                .body(matchService.getMatch(userId1,userId2))
+        }catch (e: Exception){
+            ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(null)
         }
     }
 

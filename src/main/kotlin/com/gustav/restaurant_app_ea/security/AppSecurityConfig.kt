@@ -52,6 +52,7 @@ class SecurityConfig {
                     .requestMatchers("/api/v1/auth/login").permitAll()
                     .requestMatchers("/api/v1/restaurant/**").permitAll()
                     .requestMatchers("/api/v1/user/signup").permitAll()
+                    .requestMatchers("/api/v1/user/all").hasAnyRole("ADMIN", "SUPER_ADMIN")
                     .requestMatchers("/api/v1/admin/create").hasRole("SUPER_ADMIN")
                     .requestMatchers("/api/v1/reservation/**").hasRole("USER")
                     .requestMatchers("/api/v1/review/**").hasRole("USER")
