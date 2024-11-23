@@ -45,7 +45,7 @@ class UserController(
         }
         TODO("""
                 -Skriva Klart metoden
-                -Skriva tester för alla endpoints 3/10
+                -Skriva tester för alla endpoints 6/15
                 -Se över Felhantering
             """.trimIndent())
     }
@@ -62,15 +62,20 @@ class UserController(
 
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/{id}")
-    fun getById(@PathVariable("id") id: ObjectId): ResponseEntity<UserEntity> {
+    fun getById(@PathVariable("id") id: ObjectId): ResponseEntity<Any> {
         return try {
             ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.findById(id))
-        }catch (e:Exception){
-            ResponseEntity
+        }catch (e : UserNotFoundException) {
+            val errorResponse = mapOf(
+                "error" to  "User Not Found",
+                "message" to e.message,
+                "status" to HttpStatus.NOT_FOUND.value()
+            )
+            return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(null)
+                .body(errorResponse)
         }
 
     }
@@ -95,7 +100,7 @@ class UserController(
     }
 
     @RateLimiter(name = "rateLimiter")
-    @PreAuthorize("hasRole('USEr')")
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{userId1}/{userId2}")
     fun getMatch(
         @PathVariable userId1: ObjectId,

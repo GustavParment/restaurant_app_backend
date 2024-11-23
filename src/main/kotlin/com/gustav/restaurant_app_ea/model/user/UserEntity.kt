@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document(collection = "user")
 data class UserEntity(
-    @Id var id: ObjectId? = ObjectId(),
+    @Id var id: ObjectId = ObjectId(),
     val username: String,
     val password: String,
     val email:String,
@@ -19,9 +19,7 @@ data class UserEntity(
     val matchListId: List<ObjectId>?= emptyList()
     )
 {
-    fun toUser(){
-        TODO("Fixa Macthings logik")
-    }
+
 }
 
 data class UserProfile(

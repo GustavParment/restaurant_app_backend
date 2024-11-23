@@ -4,8 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.gustav.restaurant_app_ea.RestaurantAppEaApplication
 import com.gustav.restaurant_app_ea.authorities.Role
 import com.gustav.restaurant_app_ea.config.StartupConfig
+import com.gustav.restaurant_app_ea.config.exceptionhandling.UserNotFoundException
 import com.gustav.restaurant_app_ea.model.dto.user.UserDto
+import com.gustav.restaurant_app_ea.model.user.MatchEntity
+import com.gustav.restaurant_app_ea.model.user.MatchStatus
 import com.gustav.restaurant_app_ea.model.user.UserEntity
+import com.gustav.restaurant_app_ea.model.user.UserProfile
 import com.gustav.restaurant_app_ea.repository.user.UserRepository
 import com.gustav.restaurant_app_ea.security.SecurityConfig
 import com.gustav.restaurant_app_ea.security.jwt.TokenService
@@ -16,6 +20,7 @@ import io.jsonwebtoken.Claims
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -30,6 +35,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.util.*
 import kotlin.test.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.mockito.Mockito.*
+
 @SpringBootTest(classes = [RestaurantAppEaApplication :: class])
 @AutoConfigureMockMvc
 class UserControllerTest{
@@ -152,7 +160,7 @@ class UserControllerTest{
 
     @Test
     @WithMockUser(username = "Admin", roles = ["ADMIN"])
-    fun `test GET user by id should return 201`(){
+    fun `test GET user by id with role ADMIN should return 201`(){
         val mockUser = UserEntity(
             username = "Benny",
             password = "123",
@@ -177,6 +185,100 @@ class UserControllerTest{
 
         assertEquals(200, result.response.status)
     }
+
+    @Test
+    @WithMockUser(username = "Benny", roles = ["USER"])
+    fun `test GET user by id with role USER should return 403`(){
+        val userId = ObjectId()
+
+        Mockito.`when`(userService.findById(userId)).thenReturn(null)
+        val result = mockMvc.perform(
+            MockMvcRequestBuilders.get("/api/v1/user/$userId")
+            .contentType(MediaType.APPLICATION_JSON)
+
+        )
+            .andExpect(MockMvcResultMatchers.status().isForbidden)
+            .andReturn()
+
+        assertEquals(403, result.response.status)
+
+
+    }
+
+    @Test
+    @WithMockUser(username = "Admin", roles = ["ADMIN"])
+    fun `test get user by id when user is non existing should return 404 when user is not found`() {
+
+        val userId = ObjectId.get()
+        `when`(userService.findById(userId)).thenThrow(UserNotFoundException("User Not Found"))
+
+       val result = mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/user/{id}", userId.toString()))
+            .andExpect(MockMvcResultMatchers.status().isNotFound)  // Förvänta en 404-statuskod
+            .andExpect(MockMvcResultMatchers.jsonPath("$.error").value("User Not Found"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.status").value(404))
+            .andReturn()
+
+        assertEquals(404, result.response.status)
+    }
+
+    @Test
+    @WithMockUser(username = "Benny", roles = ["USER"])
+    fun `test create match between users should return 201`(){
+        val userProfile1 = UserProfile(
+            avatar = "img.jpg",
+            bio = "a handsome guy",
+            favoriteFood = mutableListOf("Pizza", "Sushi"),
+            hobbies = mutableListOf("Reading", "Swimming")
+        )
+        val mockUser1 = UserEntity(
+            id = ObjectId(),
+            username = "Benny",
+            password = "123",
+            email = "benny@gustav.pl",
+            birthday = "1337",
+            firstName = "Benny",
+            lastName = "Bennysson",
+            role = Role.USER,
+            profile = listOf(userProfile1),
+            matchListId = emptyList()
+
+            )
+
+        val userProfile2 = UserProfile(
+            avatar = "img.jpg",
+            bio = "a handsome girl",
+            favoriteFood = mutableListOf("Spaghetti", "Sushi"),
+            hobbies = mutableListOf("Reading", "Climbing")
+
+        )
+        val mockUser2 = UserEntity(
+            id = ObjectId(),
+            username = "Frida",
+            password = "123",
+            email = "frida@frida.com",
+            birthday = "1337",
+            firstName = "Frida",
+            lastName = "Fridasson",
+            role = Role.USER,
+            profile = listOf(userProfile2),
+            matchListId = emptyList()
+
+        )
+
+        val matchEntity = MatchEntity(
+            userId1 = mockUser1.id,
+            userId2 = mockUser2.id,
+            matchStatus = MatchStatus.WAITING
+        )
+
+        `when`(matchService.createMatch(mockUser1.id, mockUser2.id)).thenReturn(matchEntity)
+
+    }
+
+
+
+
+
 
 
 

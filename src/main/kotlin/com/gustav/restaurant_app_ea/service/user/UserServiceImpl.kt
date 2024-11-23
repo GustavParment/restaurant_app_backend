@@ -35,7 +35,9 @@ class UserServiceImpl(
     }
 
     override fun findById(id: ObjectId): UserEntity? {
-        return userRepository.findById(id).orElseThrow()
+        return userRepository.findById(id).orElseThrow{
+            UserNotFoundException("User not found with id: $id")
+        }
     }
 
     override fun createAdmin(user: UserDto): UserEntity {
