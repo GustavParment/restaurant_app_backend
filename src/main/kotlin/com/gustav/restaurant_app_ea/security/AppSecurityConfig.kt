@@ -17,6 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 
 @Configuration
@@ -52,6 +55,7 @@ class SecurityConfig {
                     .requestMatchers("/api/v1/auth/login").permitAll()
                     .requestMatchers("/api/v1/restaurant/**").permitAll()
                     .requestMatchers("/api/v1/user/signup").permitAll()
+                    .requestMatchers("/api/v1/admin/test").hasRole("SUPER_ADMIN")
                     .requestMatchers("/api/v1/user/all").hasAnyRole("ADMIN", "SUPER_ADMIN")
                     .requestMatchers("/api/v1/admin/create").hasRole("SUPER_ADMIN")
                     .requestMatchers("/api/v1/user/{id}").hasAnyRole("SUPER_ADMIN", "ADMIN")
@@ -77,4 +81,5 @@ class SecurityConfig {
 
     @Bean
     fun encoder(): PasswordEncoder = BCryptPasswordEncoder()
+
 }

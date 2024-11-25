@@ -223,7 +223,7 @@ class UserControllerTest{
 
     @Test
     @WithMockUser(username = "Benny", roles = ["USER"])
-    fun `test create match between users should return 201`(){
+    fun `test create match between users should return 201 when common hobbies & food`(){
         val userProfile1 = UserProfile(
             avatar = "img.jpg",
             bio = "a handsome guy",
@@ -273,8 +273,69 @@ class UserControllerTest{
 
         `when`(matchService.createMatch(mockUser1.id, mockUser2.id)).thenReturn(matchEntity)
 
+        val result = mockMvc.perform(
+            MockMvcRequestBuilders.post("/api/v1/user/{userId1}/match/{userId2}", mockUser1.id, mockUser2.id)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+            .andExpect(MockMvcResultMatchers.status().isCreated)
+            .andReturn()
+        println("Response Body: ${result.response.contentAsString}")
+
+        assertEquals(201, result.response.status)
+
     }
 
+    @Test
+    @WithMockUser(username = "Frida", roles = ["USER"])
+    fun `test create match between users should return 404 if no common hobbies & food`(){
+
+        val userProfile1 = UserProfile(
+            avatar = "img.jpg",
+            bio = "a handsome guy",
+            favoriteFood = mutableListOf("Pizza", "Sushi"),
+            hobbies = mutableListOf("Reading", "Swimming")
+        )
+
+        val user1 = UserEntity(
+            id = ObjectId(),
+            username = "user1",
+            password = "password1",
+            email = "user1@example.com",
+            firstName = "User1",
+            lastName = "Test",
+            birthday = "1990-01-01",
+            role = Role.USER
+        )
+
+        val user2 = UserEntity(
+            id = ObjectId(),
+            username = "user2",
+            password = "password2",
+            email = "user2@example.com",
+            firstName = "User2",
+            lastName = "Test",
+            birthday = "1992-02-02",
+            role = Role.USER
+        )
+
+        val userProfile2 = UserProfile(
+            avatar = "img.jpg",
+            bio = "a handsome girl",
+            favoriteFood = mutableListOf("Spaghetti"),
+            hobbies = mutableListOf("Reading", "Climbing")
+
+        )
+
+        val result = mockMvc.perform(
+            MockMvcRequestBuilders.post()
+        )
+
+        TODO("""
+            Skriva klart Tester
+        """.trimIndent())
+
+
+    }
 
 
 

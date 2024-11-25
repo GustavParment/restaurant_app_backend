@@ -45,7 +45,7 @@ class UserController(
         }
         TODO("""
                 -Skriva Klart metoden
-                -Skriva tester för alla endpoints 6/15
+                -Skriva tester för alla endpoints 8/10
                 -Se över Felhantering
             """.trimIndent())
     }
@@ -94,7 +94,7 @@ class UserController(
                .body(matchService.createMatch(userId1,userId2))
         }catch (e:Exception){
             ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.NOT_FOUND)
                 .body(null)
         }
     }

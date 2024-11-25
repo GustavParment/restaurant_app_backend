@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -17,16 +18,20 @@ class AuthController(
 ) {
 
     @PostMapping("/login")
-    fun login(@RequestBody authenticationRequest: AuthenticationRequest)
+    fun login(
+        @RequestParam username: String,
+        @RequestParam password: String)
     : ResponseEntity<AuthenticationResponse>
     {
         return try {
-            val authenticationResponse: AuthenticationResponse =
-                authenticationService.authentication(authenticationRequest)
+
+            val authRequest = AuthenticationRequest(username,password)
+            val authResponse: AuthenticationResponse =
+                authenticationService.authentication(authRequest)
 
             ResponseEntity
                 .status(HttpStatus.OK)
-                .body(authenticationResponse)
+                .body(authResponse)
         } catch (e: Exception) {
             ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 AuthenticationResponse("", "")

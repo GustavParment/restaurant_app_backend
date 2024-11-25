@@ -15,5 +15,5 @@ data class RestaurantEntity(
     val image: String,
     val rating: String,
     val menu: List<String>,
-    val review: List<Review>
+    val review: List<Review> = emptyList()
 )

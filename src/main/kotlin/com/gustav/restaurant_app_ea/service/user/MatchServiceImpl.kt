@@ -30,6 +30,8 @@ class MatchServiceImpl(
             userId2 = user2.id ?: throw UserNotFoundException("User not found"),
             matchStatus = MatchStatus.WAITING,
         )
+        println("Creating match with userId1: ${matchEntity.userId1}, userId2: ${matchEntity.userId2}")
+
         val savedMatch = matchRepository.save(matchEntity)
 
         val usersToUpdate = listOf(user1, user2)
