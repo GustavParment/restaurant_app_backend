@@ -52,8 +52,7 @@ class SecurityConfig {
             .csrf{ it.disable() }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("/api/v1/auth/login").permitAll()
-                    .requestMatchers("/api/v1/auth/logout").hasAnyRole("USER", "ADMIN", "SUPER_ADIMN")
+                    .requestMatchers("/api/v1/auth/**").permitAll()
                     .requestMatchers("/api/v1/restaurant/**").permitAll()
                     .requestMatchers("/api/v1/user/signup").permitAll()
                     .requestMatchers("/api/v1/admin/test").hasRole("SUPER_ADMIN")

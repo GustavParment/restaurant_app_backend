@@ -47,7 +47,7 @@ class AuthController(
 
             ResponseEntity
                 .status(HttpStatus.OK)
-                .body(AuthenticationResponse(authResponse.accessToken, ""))
+                .body(AuthenticationResponse(authResponse.accessToken,authResponse.refreshToken))
 
         } catch (e: Exception) {
             ResponseEntity
@@ -55,34 +55,6 @@ class AuthController(
                 .body(AuthenticationResponse("", ""))
         }
     }
-
-    @PostMapping("/logout")
-    fun logout(
-        @RequestBody token: String,
-        response: HttpServletResponse
-    ): ResponseEntity<String> {
-        return try {
-            authenticationService.logout(token)
-
-            val cookie = Cookie("refreshToken", "").apply {
-                isHttpOnly = true
-                secure = true
-                path = "/"
-                maxAge = 0
-            }
-            response.addCookie(cookie)
-
-            ResponseEntity
-                .status(HttpStatus.OK)
-                .body("Successfully logged out")
-        } catch (e: Exception) {
-            ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body(e.message ?: "Unknown error")
-        }
-    }
-
-
 
     @PostMapping("/refresh")
     fun refreshToken(
