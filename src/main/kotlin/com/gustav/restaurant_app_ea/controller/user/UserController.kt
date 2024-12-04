@@ -59,6 +59,22 @@ class UserController(
             .body(userService.list())
 
     }
+    @RateLimiter(name = "rateLimiter")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @DeleteMapping("/delete/{id}")
+    fun deleteUser(@PathVariable id: String): ResponseEntity<Any> {
+        return try {
+            val user = userService.findById(id) ?: throw UserNotFoundException("User not found with $id")
+
+
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("$user was successfully deleted" + userService.deleteUser(user))
+
+        }catch (e : Exception){
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+    }
 
     @RateLimiter(name = "rateLimiter")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
@@ -69,6 +85,7 @@ class UserController(
     ): ResponseEntity<Any>
     {
        return try {
+           println("DEBUGG: UPDATEPASSWORD-------------------------")
            return ResponseEntity
                .status(HttpStatus.ACCEPTED)
                .body(userService.updateUser(id,userDto))
@@ -143,5 +160,7 @@ class UserController(
                 .body(null)
         }
     }
+
+
 
 }

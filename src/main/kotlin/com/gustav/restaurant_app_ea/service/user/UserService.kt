@@ -16,4 +16,5 @@ interface UserService {
     fun updateHobbies(userId: String, userHobbyInputDto: UserHobbyInputDto)
     fun updateFavoriteFood(userId: String, userFavoriteFoodInputDto: UserFavoriteFoodInputDto)
     fun updateUser(id:String,userDto: UserDto) : UserEntity
+    fun deleteUser(user: UserEntity)
 }

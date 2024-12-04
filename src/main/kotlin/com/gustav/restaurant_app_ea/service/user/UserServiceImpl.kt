@@ -80,11 +80,15 @@ class UserServiceImpl(
         userDto.username.let {
             user.username = it
         }
-        userDto.username.let {
+        userDto.password.let {
             user.password = passwordEncoder.encode(it)
         }
 
         return userRepository.save(user)
+    }
+
+    override fun deleteUser(user: UserEntity) {
+        userRepository.delete(user)
     }
 
     fun createSuperAdmin(): UserEntity {
