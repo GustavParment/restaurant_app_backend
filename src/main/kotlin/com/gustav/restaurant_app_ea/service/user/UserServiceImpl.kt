@@ -45,7 +45,10 @@ class UserServiceImpl(
         return userRepository.save(adminEntity)
     }
 
-    override fun updateHobbies(userId: ObjectId, userHobbyInputDto: UserHobbyInputDto) {
+    override fun updateHobbies(
+        userId: ObjectId,
+        userHobbyInputDto: UserHobbyInputDto
+    ) {
         val userEntity = userRepository.findById(userId)
             .orElseThrow{
                 UserNotFoundException("User not found")
@@ -57,7 +60,10 @@ class UserServiceImpl(
         userRepository.save(userEntity)
     }
 
-    override fun updateFavoriteFood(userId: ObjectId, userFavoriteFoodInputDto: UserFavoriteFoodInputDto) {
+    override fun updateFavoriteFood(
+        userId: ObjectId,
+        userFavoriteFoodInputDto: UserFavoriteFoodInputDto
+    ) {
         val userEntity = userRepository.findById(userId)
             .orElseThrow{
                 UserNotFoundException("User not found")
@@ -66,6 +72,25 @@ class UserServiceImpl(
             profile.favoriteFood.clear()
             profile.favoriteFood = userFavoriteFoodInputDto.favoriteFood.toMutableList()
         }
+    }
+
+    override fun updateUser(
+        id:ObjectId,
+        userDto: UserDto
+    ): UserEntity
+    {
+      val user = userRepository.findById(id)
+          .orElseThrow {
+              throw UserNotFoundException("User not found")
+          }
+        userDto.username.let {
+            user.username = it
+        }
+        userDto.username.let {
+            user.password = passwordEncoder.encode(it)
+        }
+
+        return userRepository.save(user)
     }
 
     fun createSuperAdmin(): UserEntity {

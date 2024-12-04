@@ -36,55 +36,16 @@ class AuthController(
             val authResponse: AuthenticationResponse =
                 authenticationService.authentication(authRequest)
 
-            val refreshTokenCookie = Cookie("refreshToken", authResponse.refreshToken).apply {
-                isHttpOnly = true
-                secure = true
-                path = "/"
-                maxAge = 7 * 24 * 60 * 60
-            }
-            response.addCookie(refreshTokenCookie)
-
-
             ResponseEntity
                 .status(HttpStatus.OK)
-                .body(AuthenticationResponse(authResponse.accessToken,authResponse.refreshToken))
+                .body(authResponse)
 
         } catch (e: Exception) {
             ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(AuthenticationResponse("", ""))
+                .body(null)
         }
     }
 
-    @PostMapping("/refresh")
-    fun refreshToken(
-        request: HttpServletRequest
-    ): ResponseEntity<String> {
-        try {
-            val refreshTokenCookie = request.cookies?.find { it.name == "refreshToken" }
-            val refreshToken = refreshTokenCookie?.value
-
-            if (refreshToken.isNullOrEmpty()) {
-                return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("No refresh token found")
-            }
-
-            val newAccessToken = authenticationService.refreshAccessToken(refreshToken)
-
-            return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(newAccessToken)
-        } catch (e: Exception) {
-            return ResponseEntity
-                .status(HttpStatus.UNAUTHORIZED)
-                .body("Invalid or expired refresh token")
-        }
-        TODO("""
-            FIXA COOKIES?
-            BYGGA OM JWT?
-        """.trimIndent())
-
-    }
 
 }

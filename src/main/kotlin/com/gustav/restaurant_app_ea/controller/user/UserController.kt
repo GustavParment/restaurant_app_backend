@@ -60,6 +60,32 @@ class UserController(
 
     }
 
+    @RateLimiter(name = "rateLimiter")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @PutMapping("/update/{id}")
+    fun updateUser(
+        @PathVariable id: ObjectId,
+        @RequestBody userDto: UserDto
+    ): ResponseEntity<Any>
+    {
+       return try {
+           return ResponseEntity
+               .status(HttpStatus.ACCEPTED)
+               .body(userService.updateUser(id,userDto))
+
+       }catch (e : UserNotFoundException) {
+           val errorResponse = mapOf(
+               "error" to  "User Not Found",
+               "message" to e.message,
+               "status" to HttpStatus.NOT_FOUND.value()
+           )
+           return ResponseEntity
+               .status(HttpStatus.NOT_FOUND)
+               .body(errorResponse)
+       }
+
+    }
+
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/{id}")
     fun getById(@PathVariable("id") id: ObjectId): ResponseEntity<Any> {

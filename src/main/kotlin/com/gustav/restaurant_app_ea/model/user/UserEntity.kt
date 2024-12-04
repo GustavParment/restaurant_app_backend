@@ -8,8 +8,8 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "user")
 data class UserEntity(
     @Id var id: ObjectId = ObjectId(),
-    val username: String,
-    val password: String,
+    var username: String,
+    var password: String,
     val email:String,
     val firstName:String,
     val lastName:String,

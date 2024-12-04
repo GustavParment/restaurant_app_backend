@@ -15,4 +15,5 @@ interface UserService {
     fun createAdmin(user: UserDto): UserEntity
     fun updateHobbies(userId: ObjectId, userHobbyInputDto: UserHobbyInputDto)
     fun updateFavoriteFood(userId: ObjectId, userFavoriteFoodInputDto: UserFavoriteFoodInputDto)
+    fun updateUser(id:ObjectId,userDto: UserDto) : UserEntity
 }
