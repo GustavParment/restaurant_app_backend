@@ -15,11 +15,10 @@ class MatchServiceImpl(
     private val matchRepository: MatchRepository
 ): MatchService
 {
-    override fun createMatch(userId1: ObjectId, userId2: ObjectId): MatchEntity {
+    override fun createMatch(userId1: String, userId2: String): MatchEntity {
         val user1 = userRepository.findById(userId1)
-            .orElseThrow { UserNotFoundException("User with ID $userId1 not found") }
+
         val user2 = userRepository.findById(userId2)
-            .orElseThrow { UserNotFoundException("User with ID $userId2 not found") }
 
         if (!hasCommonHobby(user1, user2) && !hasCommonFood(user1, user2)) {
             throw IllegalArgumentException("Users do not have common hobbies or favorite foods")
@@ -42,7 +41,7 @@ class MatchServiceImpl(
     }
 
 
-    override fun getMatch(userId1: ObjectId, userId2: ObjectId): List<MatchEntity> {
+    override fun getMatch(userId1: String, userId2: String): List<MatchEntity> {
         return matchRepository.findAllByUserId1AndUserId2(userId1, userId2) +
                 matchRepository.findAllByUserId1AndUserId2(userId2, userId1)
     }

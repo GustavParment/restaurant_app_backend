@@ -64,7 +64,7 @@ class UserController(
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @PutMapping("/update/{id}")
     fun updateUser(
-        @PathVariable id: ObjectId,
+        @PathVariable id: String,
         @RequestBody userDto: UserDto
     ): ResponseEntity<Any>
     {
@@ -88,7 +88,7 @@ class UserController(
 
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/{id}")
-    fun getById(@PathVariable("id") id: ObjectId): ResponseEntity<Any> {
+    fun getById(@PathVariable("id") id: String): ResponseEntity<Any> {
         return try {
             ResponseEntity
                 .status(HttpStatus.OK)
@@ -110,8 +110,8 @@ class UserController(
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/{userId1}/match/{userId2}")
     fun createMatch(
-        @PathVariable userId1: ObjectId,
-        @PathVariable userId2: ObjectId
+        @PathVariable userId1: String,
+        @PathVariable userId2: String
     ) : ResponseEntity<MatchEntity>
     {
         return try {
@@ -129,8 +129,8 @@ class UserController(
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{userId1}/{userId2}")
     fun getMatch(
-        @PathVariable userId1: ObjectId,
-        @PathVariable userId2: ObjectId
+        @PathVariable userId1: String,
+        @PathVariable userId2: String
     ): ResponseEntity<List<MatchEntity>>
     {
         return try {

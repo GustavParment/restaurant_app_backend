@@ -8,8 +8,8 @@ import java.util.*
 @Document(collection = "user match")
 data class MatchEntity(
     @Id val id: ObjectId = ObjectId(),
-    val userId1: ObjectId,
-    val userId2: ObjectId,
+    val userId1: String,
+    val userId2: String,
     val matchStatus: MatchStatus,
     val matchDate: Date = Date(),
     )

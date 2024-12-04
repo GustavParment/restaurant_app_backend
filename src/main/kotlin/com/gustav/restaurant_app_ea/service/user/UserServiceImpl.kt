@@ -34,11 +34,11 @@ class UserServiceImpl(
         return userRepository.findByUsername(username)
     }
 
-    override fun findById(id: ObjectId): UserEntity? {
-        return userRepository.findById(id).orElseThrow{
-            UserNotFoundException("User not found with id: $id")
-        }
+    override fun findById(id: String): UserEntity? {
+        val userEntity = userRepository.findById(id)
+        return userEntity
     }
+
 
     override fun createAdmin(user: UserDto): UserEntity {
         val adminEntity = user.toAdminEntity(passwordEncoder);
@@ -46,13 +46,11 @@ class UserServiceImpl(
     }
 
     override fun updateHobbies(
-        userId: ObjectId,
+        userId: String,
         userHobbyInputDto: UserHobbyInputDto
     ) {
         val userEntity = userRepository.findById(userId)
-            .orElseThrow{
-                UserNotFoundException("User not found")
-            }
+
         userEntity.profile?.forEach{ profile ->
             profile.hobbies.clear()
             profile.hobbies = userHobbyInputDto.hobbies.toMutableList()
@@ -61,13 +59,11 @@ class UserServiceImpl(
     }
 
     override fun updateFavoriteFood(
-        userId: ObjectId,
+        userId: String,
         userFavoriteFoodInputDto: UserFavoriteFoodInputDto
     ) {
         val userEntity = userRepository.findById(userId)
-            .orElseThrow{
-                UserNotFoundException("User not found")
-            }
+
         userEntity.profile?.forEach{ profile ->
             profile.favoriteFood.clear()
             profile.favoriteFood = userFavoriteFoodInputDto.favoriteFood.toMutableList()
@@ -75,14 +71,12 @@ class UserServiceImpl(
     }
 
     override fun updateUser(
-        id:ObjectId,
+        id:String,
         userDto: UserDto
     ): UserEntity
     {
       val user = userRepository.findById(id)
-          .orElseThrow {
-              throw UserNotFoundException("User not found")
-          }
+
         userDto.username.let {
             user.username = it
         }

@@ -11,9 +11,9 @@ interface UserService {
     fun create(user: UserDto): UserEntity
     fun list(): List<UserEntity>
     fun findByUsername(username: String): UserEntity?
-    fun findById(id: ObjectId): UserEntity?
+    fun findById(id: String): UserEntity?
     fun createAdmin(user: UserDto): UserEntity
-    fun updateHobbies(userId: ObjectId, userHobbyInputDto: UserHobbyInputDto)
-    fun updateFavoriteFood(userId: ObjectId, userFavoriteFoodInputDto: UserFavoriteFoodInputDto)
-    fun updateUser(id:ObjectId,userDto: UserDto) : UserEntity
+    fun updateHobbies(userId: String, userHobbyInputDto: UserHobbyInputDto)
+    fun updateFavoriteFood(userId: String, userFavoriteFoodInputDto: UserFavoriteFoodInputDto)
+    fun updateUser(id:String,userDto: UserDto) : UserEntity
 }

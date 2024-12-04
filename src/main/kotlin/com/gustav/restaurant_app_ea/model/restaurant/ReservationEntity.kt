@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 @Document(collection = "reservation")
 data class ReservationEntity(
     @Id val id: ObjectId? = ObjectId(),
-    val userId: ObjectId? = ObjectId(),
+    val userId: String?,
     val restaurantId: ObjectId? = ObjectId(),
     val reservationDate: LocalDateTime,
     val guests: Int
