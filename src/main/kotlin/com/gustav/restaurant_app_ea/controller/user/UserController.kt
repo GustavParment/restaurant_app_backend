@@ -59,10 +59,53 @@ class UserController(
             .body(userService.list())
 
     }
+    @RateLimiter(name = "rateLimiter")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @DeleteMapping("/delete/{id}")
+    fun deleteUser(@PathVariable id: String): ResponseEntity<Any> {
+        return try {
+            val user = userService.findById(id) ?: throw UserNotFoundException("User not found with $id")
+
+
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("$user was successfully deleted" + userService.deleteUser(user))
+
+        }catch (e : Exception){
+            return ResponseEntity(HttpStatus.BAD_REQUEST)
+        }
+    }
+
+    @RateLimiter(name = "rateLimiter")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @PutMapping("/update/{id}")
+    fun updateUser(
+        @PathVariable id: String,
+        @RequestBody userDto: UserDto
+    ): ResponseEntity<Any>
+    {
+       return try {
+           println("DEBUGG: UPDATEPASSWORD-------------------------")
+           return ResponseEntity
+               .status(HttpStatus.ACCEPTED)
+               .body(userService.updateUser(id,userDto))
+
+       }catch (e : UserNotFoundException) {
+           val errorResponse = mapOf(
+               "error" to  "User Not Found",
+               "message" to e.message,
+               "status" to HttpStatus.NOT_FOUND.value()
+           )
+           return ResponseEntity
+               .status(HttpStatus.NOT_FOUND)
+               .body(errorResponse)
+       }
+
+    }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/{id}")
-    fun getById(@PathVariable("id") id: ObjectId): ResponseEntity<Any> {
+    fun getById(@PathVariable("id") id: String): ResponseEntity<Any> {
         return try {
             ResponseEntity
                 .status(HttpStatus.OK)
@@ -84,8 +127,8 @@ class UserController(
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/{userId1}/match/{userId2}")
     fun createMatch(
-        @PathVariable userId1: ObjectId,
-        @PathVariable userId2: ObjectId
+        @PathVariable userId1: String,
+        @PathVariable userId2: String
     ) : ResponseEntity<MatchEntity>
     {
         return try {
@@ -103,8 +146,8 @@ class UserController(
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{userId1}/{userId2}")
     fun getMatch(
-        @PathVariable userId1: ObjectId,
-        @PathVariable userId2: ObjectId
+        @PathVariable userId1: String,
+        @PathVariable userId2: String
     ): ResponseEntity<List<MatchEntity>>
     {
         return try {
@@ -117,5 +160,7 @@ class UserController(
                 .body(null)
         }
     }
+
+
 
 }

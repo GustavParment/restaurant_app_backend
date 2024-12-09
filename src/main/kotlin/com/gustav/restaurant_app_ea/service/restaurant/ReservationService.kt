@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 interface ReservationService {
     fun creatReservation(
         restaurantId: ObjectId,
-        userId: ObjectId,
+        userId: String,
         date: LocalDateTime,
         guests: Int
     ): ReservationEntity

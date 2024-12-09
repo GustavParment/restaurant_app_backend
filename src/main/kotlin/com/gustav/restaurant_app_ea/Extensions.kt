@@ -10,6 +10,7 @@ import com.gustav.restaurant_app_ea.model.restaurant.ReservationEntity
 import com.gustav.restaurant_app_ea.model.dto.restaurant.ReservationDto
 import com.gustav.restaurant_app_ea.model.dto.restaurant.ReviewDto
 import com.gustav.restaurant_app_ea.model.restaurant.Review
+import com.gustav.restaurant_app_ea.security.authorities.Role
 import java.time.LocalDateTime
 
 fun RestaurantEntity.toDto() = RestaurantDto(

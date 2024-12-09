@@ -2,32 +2,21 @@ package com.gustav.restaurant_app_ea.controller.user
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.gustav.restaurant_app_ea.RestaurantAppEaApplication
-import com.gustav.restaurant_app_ea.repository.user.UserRepository
-import com.gustav.restaurant_app_ea.security.jwt.AuthenticationRequest
-import com.gustav.restaurant_app_ea.security.jwt.AuthenticationResponse
+import com.gustav.restaurant_app_ea.model.dto.user.AuthenticationRequest
+import com.gustav.restaurant_app_ea.model.dto.user.AuthenticationResponse
 import com.gustav.restaurant_app_ea.security.jwt.AuthenticationService
 import com.gustav.restaurant_app_ea.security.jwt.TokenService
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.junit.jupiter.MockitoExtension
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.mockito.kotlin.any
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.security.test.context.support.WithMockUser
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import kotlin.test.assertEquals
 
@@ -51,7 +40,7 @@ class AuthControllerTest{
     fun`Test login with good credentials and expect status 200 `(){
 
         val authenticationRequest = AuthenticationRequest("Benny", "123")
-        val authenticationResponse = AuthenticationResponse("access-token", "refresh-token")
+        val authenticationResponse = AuthenticationResponse("access-token")
 
         Mockito.`when`(authenticationService.authentication(any())).thenReturn(authenticationResponse)
 

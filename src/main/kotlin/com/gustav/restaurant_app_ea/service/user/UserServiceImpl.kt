@@ -1,6 +1,6 @@
 package com.gustav.restaurant_app_ea.service.user
 
-import com.gustav.restaurant_app_ea.authorities.Role
+import com.gustav.restaurant_app_ea.security.authorities.Role
 import com.gustav.restaurant_app_ea.config.exceptionhandling.UserNotFoundException
 import com.gustav.restaurant_app_ea.model.user.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.user.UserDto
@@ -34,22 +34,23 @@ class UserServiceImpl(
         return userRepository.findByUsername(username)
     }
 
-    override fun findById(id: ObjectId): UserEntity? {
-        return userRepository.findById(id).orElseThrow{
-            UserNotFoundException("User not found with id: $id")
-        }
+    override fun findById(id: String): UserEntity? {
+        val userEntity = userRepository.findById(id)
+        return userEntity
     }
+
 
     override fun createAdmin(user: UserDto): UserEntity {
         val adminEntity = user.toAdminEntity(passwordEncoder);
         return userRepository.save(adminEntity)
     }
 
-    override fun updateHobbies(userId: ObjectId, userHobbyInputDto: UserHobbyInputDto) {
+    override fun updateHobbies(
+        userId: String,
+        userHobbyInputDto: UserHobbyInputDto
+    ) {
         val userEntity = userRepository.findById(userId)
-            .orElseThrow{
-                UserNotFoundException("User not found")
-            }
+
         userEntity.profile?.forEach{ profile ->
             profile.hobbies.clear()
             profile.hobbies = userHobbyInputDto.hobbies.toMutableList()
@@ -57,15 +58,37 @@ class UserServiceImpl(
         userRepository.save(userEntity)
     }
 
-    override fun updateFavoriteFood(userId: ObjectId, userFavoriteFoodInputDto: UserFavoriteFoodInputDto) {
+    override fun updateFavoriteFood(
+        userId: String,
+        userFavoriteFoodInputDto: UserFavoriteFoodInputDto
+    ) {
         val userEntity = userRepository.findById(userId)
-            .orElseThrow{
-                UserNotFoundException("User not found")
-            }
+
         userEntity.profile?.forEach{ profile ->
             profile.favoriteFood.clear()
             profile.favoriteFood = userFavoriteFoodInputDto.favoriteFood.toMutableList()
         }
+    }
+
+    override fun updateUser(
+        id:String,
+        userDto: UserDto
+    ): UserEntity
+    {
+      val user = userRepository.findById(id)
+
+        userDto.username.let {
+            user.username = it
+        }
+        userDto.password.let {
+            user.password = passwordEncoder.encode(it)
+        }
+
+        return userRepository.save(user)
+    }
+
+    override fun deleteUser(user: UserEntity) {
+        userRepository.delete(user)
     }
 
     fun createSuperAdmin(): UserEntity {

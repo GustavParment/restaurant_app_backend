@@ -1,5 +1,6 @@
 package com.gustav.restaurant_app_ea.service.restaurant
 
+import com.gustav.restaurant_app_ea.config.exceptionhandling.UserNotFoundException
 import com.gustav.restaurant_app_ea.model.restaurant.ReservationEntity
 import com.gustav.restaurant_app_ea.repository.resturant.ReservationRepository
 import com.gustav.restaurant_app_ea.repository.resturant.RestaurantRepository
@@ -17,13 +18,12 @@ class ReservationServiceImpl(
 
     override fun creatReservation(
         restaurantId: ObjectId,
-        userId: ObjectId,
+        userId: String,
         date: LocalDateTime,
         guests: Int
     ): ReservationEntity
     {
-        val user = userRepository.findById(userId)
-            .orElseThrow { RuntimeException("User not found") }
+        val user = userRepository.findById(userId) ?: throw UserNotFoundException(userId)
 
         val restaurant = restaurantRepository.findById(restaurantId)
             .orElseThrow { RuntimeException("Restaurant not found") }

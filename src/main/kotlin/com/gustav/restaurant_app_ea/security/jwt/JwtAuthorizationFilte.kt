@@ -42,7 +42,7 @@ class JwtAuthorizationFilter(
                 }
             } catch (ex: Exception) {
                 response.writer.write(
-                    """{"error": "Filter Authorization error: 
+                    """{"error": "Filter Authorization error:
                     |${ex.message ?: "unknown error"}"}""".trimMargin()
                 )
             }

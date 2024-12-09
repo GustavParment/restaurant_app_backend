@@ -52,14 +52,15 @@ class SecurityConfig {
             .csrf{ it.disable() }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("/api/v1/auth/login").permitAll()
-                    .requestMatchers("/api/v1/auth/logout").hasAnyRole("USER", "ADMIN", "SUPER_ADIMN")
+                    .requestMatchers("/api/v1/auth/**").permitAll()
                     .requestMatchers("/api/v1/restaurant/**").permitAll()
                     .requestMatchers("/api/v1/user/signup").permitAll()
                     .requestMatchers("/api/v1/admin/test").hasRole("SUPER_ADMIN")
                     .requestMatchers("/api/v1/user/all").hasAnyRole("ADMIN", "SUPER_ADMIN")
                     .requestMatchers("/api/v1/admin/create").hasRole("SUPER_ADMIN")
                     .requestMatchers("/api/v1/user/{id}").hasAnyRole("SUPER_ADMIN", "ADMIN")
+                    .requestMatchers("/api/v1/user/update/{id}").hasAnyRole("SUPER_ADMIN", "ADMIN")
+                    .requestMatchers("/api/v1/user/delete/{id}").hasAnyRole("SUPER_ADMIN", "ADMIN")
                     .requestMatchers("/api/v1/reservation/**").hasRole("USER")
                     .requestMatchers("/api/v1/review/**").hasRole("USER")
 //                    .requestMatchers("/api/v1/test/user").hasRole("USER")
