@@ -1,5 +1,7 @@
 package com.gustav.restaurant_app_ea.security.jwt
 
+import com.gustav.restaurant_app_ea.model.dto.user.AuthenticationRequest
+import com.gustav.restaurant_app_ea.model.dto.user.AuthenticationResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

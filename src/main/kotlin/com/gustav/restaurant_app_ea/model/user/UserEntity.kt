@@ -1,6 +1,6 @@
 package com.gustav.restaurant_app_ea.model.user
 
-import com.gustav.restaurant_app_ea.authorities.Role
+import com.gustav.restaurant_app_ea.security.authorities.Role
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed

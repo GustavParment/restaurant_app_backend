@@ -2,7 +2,7 @@ package com.gustav.restaurant_app_ea.controller.user
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.gustav.restaurant_app_ea.RestaurantAppEaApplication
-import com.gustav.restaurant_app_ea.authorities.Role
+import com.gustav.restaurant_app_ea.security.authorities.Role
 import com.gustav.restaurant_app_ea.config.StartupConfig
 import com.gustav.restaurant_app_ea.model.dto.user.UserDto
 import com.gustav.restaurant_app_ea.model.user.UserEntity

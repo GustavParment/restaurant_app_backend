@@ -1,6 +1,6 @@
 package com.gustav.restaurant_app_ea.service.user
 
-import com.gustav.restaurant_app_ea.authorities.Role
+import com.gustav.restaurant_app_ea.security.authorities.Role
 import com.gustav.restaurant_app_ea.config.exceptionhandling.UserNotFoundException
 import com.gustav.restaurant_app_ea.model.user.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.user.UserDto
