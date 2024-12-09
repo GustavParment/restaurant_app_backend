@@ -50,5 +50,19 @@ class AuthController(
         }
     }
 
+    @PostMapping("/logout")
+    fun logout(
+        response : HttpServletResponse
+    ): ResponseEntity<Void> {
+        val cookie = Cookie("accessToken", null)
+            .apply {
+                path = "/"
+                isHttpOnly = true
+                maxAge = 0
+            }
+        response.addCookie(cookie)
+        return ResponseEntity.noContent().build()
+    }
+
 
 }

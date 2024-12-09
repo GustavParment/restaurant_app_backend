@@ -52,7 +52,8 @@ class SecurityConfig {
             .csrf{ it.disable() }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("/api/v1/auth/**").permitAll()
+                    .requestMatchers("/api/v1/auth/login").permitAll()
+                    .requestMatchers("/api/v1/auth/logout").permitAll()
                     .requestMatchers("/api/v1/restaurant/**").permitAll()
                     .requestMatchers("/api/v1/user/signup").permitAll()
                     .requestMatchers("/api/v1/admin/test").hasRole("SUPER_ADMIN")
@@ -79,6 +80,8 @@ class SecurityConfig {
             )
 
         return http.build()
+        TODO(" FIXA VALIDERING MED JWT I FILTRET ")
+
     }
 
     @Bean
