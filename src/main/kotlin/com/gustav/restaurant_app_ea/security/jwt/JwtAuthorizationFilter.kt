@@ -1,5 +1,6 @@
 package com.gustav.restaurant_app_ea.security.jwt
 
+
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -11,7 +12,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
-
 @Component
 class JwtAuthorizationFilter(
     private val userDetailsService: UserDetailsService,
@@ -22,17 +22,17 @@ class JwtAuthorizationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val authorizationHeader: String? = request.getHeader("Authorization")
 
-        if (null != authorizationHeader && authorizationHeader.startsWith("Bearer ")) {
+        val token = extractTokenFromRequest(request)
+
+        if (!token.isNullOrEmpty()) {
             try {
-                val token: String = authorizationHeader.substringAfter("Bearer ")
                 val username: String = tokenService.extractUsername(token)
 
                 if (SecurityContextHolder.getContext().authentication == null) {
                     val userDetails: UserDetails = userDetailsService.loadUserByUsername(username)
 
-                    if (username == userDetails.username) {
+                    if (tokenService.isTokenValid(token, userDetails)) {
                         val authToken = UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.authorities
                         )
@@ -42,12 +42,29 @@ class JwtAuthorizationFilter(
                 }
             } catch (ex: Exception) {
                 response.writer.write(
-                    """{"error": "Filter Authorization error:
-                    |${ex.message ?: "unknown error"}"}""".trimMargin()
+                    """{"error": "Authorization error: ${ex.message ?: "unknown error"}"}"""
                 )
             }
         }
 
         filterChain.doFilter(request, response)
     }
+
+    private fun extractTokenFromRequest(request: HttpServletRequest): String? {
+        val authorizationHeader = request.getHeader("Authorization")
+        if (!authorizationHeader.isNullOrEmpty() && authorizationHeader.startsWith("Bearer ")) {
+            println("Found token in Authorization header")
+            return authorizationHeader.substringAfter("Bearer ")
+        }
+
+        val cookies = request.cookies
+        cookies?.forEach {
+            if (it.name == "accessToken") {
+                println("Found accessToken in cookie: ${it.value}")
+            }
+        }
+
+        return cookies?.firstOrNull { it.name == "accessToken" }?.value
+    }
+
 }

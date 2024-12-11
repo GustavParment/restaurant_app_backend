@@ -1,7 +1,9 @@
 package com.gustav.restaurant_app_ea.security
 
+
 import com.gustav.restaurant_app_ea.repository.user.UserRepository
 import com.gustav.restaurant_app_ea.security.jwt.JwtAuthorizationFilter
+
 import com.gustav.restaurant_app_ea.security.jwt.JwtUserDetailsService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -54,17 +56,20 @@ class SecurityConfig {
 
                 it
                     .requestMatchers("/api/v1/auth/login").permitAll()
-                    .requestMatchers("/api/v1/auth/logout").permitAll()
+                    .requestMatchers("/api/v1/auth/logout").hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
                     .requestMatchers("/api/v1/restaurant/**").permitAll()
                     .requestMatchers("/api/v1/user/signup").permitAll()
                     .requestMatchers("/api/v1/admin/test").hasRole("SUPER_ADMIN")
-                    .requestMatchers("/api/v1/user/all").hasAnyRole("ADMIN", "SUPER_ADMIN")
+                    .requestMatchers("/api/v1/user/all").hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
                     .requestMatchers("/api/v1/admin/create").hasRole("SUPER_ADMIN")
                     .requestMatchers("/api/v1/user/{id}").hasAnyRole("SUPER_ADMIN", "ADMIN")
                     .requestMatchers("/api/v1/user/update/{id}").hasAnyRole("SUPER_ADMIN", "ADMIN")
                     .requestMatchers("/api/v1/user/delete/{id}").hasAnyRole("SUPER_ADMIN", "ADMIN")
                     .requestMatchers("/api/v1/reservation/**").hasRole("USER")
                     .requestMatchers("/api/v1/review/**").hasRole("USER")
+                    .requestMatchers("/api/v1/user/{userId1}/{userId2}").hasAnyRole(
+                        "USER", "ADMIN", "SUPER_ADMIN"
+                    )
 //                    .requestMatchers("/api/v1/test/user").hasRole("USER")
 //                    .requestMatchers("/api/v1/test/admin").hasRole("ADMIN")
 //                    .requestMatchers("/api/v1/test/super_admin").hasRole("SUPER_ADMIN")

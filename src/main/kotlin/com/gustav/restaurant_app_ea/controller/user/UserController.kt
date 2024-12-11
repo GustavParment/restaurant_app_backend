@@ -9,6 +9,8 @@ import com.gustav.restaurant_app_ea.repository.user.UserRepository
 import com.gustav.restaurant_app_ea.service.user.MatchService
 import com.gustav.restaurant_app_ea.service.user.UserService
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.apache.catalina.User
 import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
@@ -51,16 +53,14 @@ class UserController(
     }
 
     @RateLimiter(name = "rateLimiter")
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/all")
-    fun getAll(): ResponseEntity<List<UserEntity>>{
+    fun getAll(response: HttpServletResponse): ResponseEntity<List<UserEntity>>{
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(userService.list())
 
     }
     @RateLimiter(name = "rateLimiter")
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @DeleteMapping("/delete/{id}")
     fun deleteUser(@PathVariable id: String): ResponseEntity<Any> {
         return try {
@@ -77,7 +77,6 @@ class UserController(
     }
 
     @RateLimiter(name = "rateLimiter")
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @PutMapping("/update/{id}")
     fun updateUser(
         @PathVariable id: String,
@@ -103,7 +102,6 @@ class UserController(
 
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @GetMapping("/{id}")
     fun getById(@PathVariable("id") id: String): ResponseEntity<Any> {
         return try {
@@ -160,6 +158,15 @@ class UserController(
                 .body(null)
         }
     }
+
+//    @GetMapping("/who-am-i")
+//    fun checkedLoggedInUser(
+//        request: HttpServletRequest
+//    ): ResponseEntity<String>
+//    {
+//        println("----------Headers-----");
+//        request
+//    }
 
 
 

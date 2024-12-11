@@ -2,13 +2,19 @@ package com.gustav.restaurant_app_ea.security.jwt
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import java.util.*
 import javax.crypto.spec.SecretKeySpec
 
 @Service
-class TokenService(@Value("\${jwt.secret}") private val secret: String = ""
+class TokenService(
+    @Value("\${jwt.secret}") private val secret: String = "",
+    private val userDetailsService: UserDetailsService,
+
 ) {
     private val signingKey: SecretKeySpec
         get() {
@@ -16,7 +22,17 @@ class TokenService(@Value("\${jwt.secret}") private val secret: String = ""
             return SecretKeySpec(keyBytes, 0, keyBytes.size, "HmacSHA256")
         }
 
-    fun generateToken(subject: String, expiration: Date, additionalClaims: Map<String, Any> = emptyMap()): String {
+    fun generateToken(subject: String,
+                      expiration: Date,
+                      additionalClaims: Map<String, Any> = emptyMap()
+    ): String
+    {
+//        val claims = additionalClaims.toMutableMap()
+//        claims["roles"] = userDetailsService
+//            .loadUserByUsername(subject)
+//            .authorities.map {
+//                it.authority
+//            }
         return Jwts.builder()
             .setClaims(additionalClaims)
             .setSubject(subject)
@@ -36,5 +52,19 @@ class TokenService(@Value("\${jwt.secret}") private val secret: String = ""
             .build()
             .parseClaimsJws(token)
             .body
+    }
+
+    fun isTokenValid(
+        token: String,
+        userDetails: UserDetails,
+        ): Boolean
+    {
+        val username = extractUsername(token)
+        return username == userDetails.username && !isTokenExpired(token)
+    }
+
+    private fun isTokenExpired(token: String): Boolean {
+        val expirationDate: Date = extractAllClaims(token).expiration
+        return expirationDate.before(Date())
     }
 }

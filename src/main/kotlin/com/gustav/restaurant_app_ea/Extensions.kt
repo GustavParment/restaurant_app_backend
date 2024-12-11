@@ -5,9 +5,6 @@ import com.gustav.restaurant_app_ea.model.user.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.restaurant.RestaurantDto
 import com.gustav.restaurant_app_ea.model.dto.user.UserDto
 import org.springframework.security.crypto.password.PasswordEncoder
-import com.gustav.restaurant_app_ea.authorities.*;
-import com.gustav.restaurant_app_ea.model.restaurant.ReservationEntity
-import com.gustav.restaurant_app_ea.model.dto.restaurant.ReservationDto
 import com.gustav.restaurant_app_ea.model.dto.restaurant.ReviewDto
 import com.gustav.restaurant_app_ea.model.restaurant.Review
 import com.gustav.restaurant_app_ea.security.authorities.Role
