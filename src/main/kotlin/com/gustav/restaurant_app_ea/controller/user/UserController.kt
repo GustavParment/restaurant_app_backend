@@ -16,6 +16,7 @@ import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
 @Suppress("UNREACHABLE_CODE")
@@ -60,9 +61,41 @@ class UserController(
             .body(userService.list())
 
     }
+
+    @RateLimiter(name = "rateLimiter")
+    @GetMapping("/browse")
+        fun getAllWithRoleUser(
+        response: HttpServletResponse,
+        @RequestParam(required = false, defaultValue = "0" )
+        index: Int
+        ): ResponseEntity<UserEntity>{
+            println("Accessing endpoint")
+        if(index < 0) {
+            return ResponseEntity.badRequest().body(null)
+        }
+
+        val loggedInUser = SecurityContextHolder.getContext().authentication.name
+
+        val users = userService.list().filter { user ->
+            user
+                .role
+                .name
+                .equals("USER", ignoreCase = true)
+                    &&
+                    !user.username.equals(loggedInUser, ignoreCase = true)
+            }
+            val userAtIndex = users.getOrNull(index)
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userAtIndex)
+        }
+
     @RateLimiter(name = "rateLimiter")
     @DeleteMapping("/delete/{id}")
-    fun deleteUser(@PathVariable id: String): ResponseEntity<Any> {
+    fun deleteUser(
+        @PathVariable id: String,
+        response: HttpServletResponse
+        ): ResponseEntity<Any> {
         return try {
             val user = userService.findById(id) ?: throw UserNotFoundException("User not found with $id")
 
@@ -80,7 +113,8 @@ class UserController(
     @PutMapping("/update/{id}")
     fun updateUser(
         @PathVariable id: String,
-        @RequestBody userDto: UserDto
+        @RequestBody userDto: UserDto,
+        response: HttpServletResponse
     ): ResponseEntity<Any>
     {
        return try {
@@ -159,14 +193,7 @@ class UserController(
         }
     }
 
-//    @GetMapping("/who-am-i")
-//    fun checkedLoggedInUser(
-//        request: HttpServletRequest
-//    ): ResponseEntity<String>
-//    {
-//        println("----------Headers-----");
-//        request
-//    }
+
 
 
 

@@ -87,6 +87,14 @@ class UserServiceImpl(
         return userRepository.save(user)
     }
 
+    override fun updateAvatar(userId: String, userAvatarUrl: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateBio(userId: String, userBio: String) {
+        TODO("Not yet implemented")
+    }
+
 
     override fun deleteUser(user: UserEntity) {
         userRepository.delete(user)

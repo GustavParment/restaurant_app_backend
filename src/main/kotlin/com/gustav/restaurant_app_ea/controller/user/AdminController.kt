@@ -15,10 +15,10 @@ class AdminController(
     private val userService: UserService,
 ) {
 
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+
     @RateLimiter(name = "RateLimiter")
     @PostMapping("/create")
-    fun createAdmin(response: HttpServletResponse,
+    fun createAdmin(
                     @RequestBody admin: UserDto)
     : ResponseEntity<Any>
     {

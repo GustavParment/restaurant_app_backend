@@ -26,6 +26,9 @@ import org.springframework.web.bind.annotation.*
 class AuthController(
     private val authenticationService: AuthenticationService
 ) {
+    fun `things to do in this class`(){
+        TODO("FIXA ADMIN LOGIN ENDPOINT JUST NU KAN USER LOGGA IN PÅ ADMIN SIDA")
+    }
 
     @PostMapping("/login")
     fun login(

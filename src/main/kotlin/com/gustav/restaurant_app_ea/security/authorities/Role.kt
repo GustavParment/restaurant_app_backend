@@ -4,5 +4,7 @@ enum class Role {
     GUEST,
     USER,
     ADMIN,
-    SUPER_ADMIN
+    SUPER_ADMIN;
+
+
 }
