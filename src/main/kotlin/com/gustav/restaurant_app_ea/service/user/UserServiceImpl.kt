@@ -2,6 +2,7 @@ package com.gustav.restaurant_app_ea.service.user
 
 import com.gustav.restaurant_app_ea.security.authorities.Role
 import com.gustav.restaurant_app_ea.config.exceptionhandling.UserNotFoundException
+import com.gustav.restaurant_app_ea.model.dto.user.LikeRequest
 import com.gustav.restaurant_app_ea.model.user.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.user.UserDto
 import com.gustav.restaurant_app_ea.model.dto.user.UserFavoriteFoodInputDto
@@ -100,6 +101,12 @@ class UserServiceImpl(
         userRepository.delete(user)
     }
 
+    override fun updateLikes(userId: String, like: Int) {
+        val userEntity = userRepository.findById(userId)
+
+        userEntity.likes = (userEntity.likes ?: 0) + 1
+    }
+
     fun createSuperAdmin(): UserEntity {
         val existingSuperAdmin =
             userRepository.findByUsername("Super Admin") ?:
@@ -116,7 +123,8 @@ class UserServiceImpl(
             firstName = "Super",
             lastName = "Admin",
             birthday = "1337",
-            role = Role.SUPER_ADMIN
+            role = Role.SUPER_ADMIN,
+            likes = 0
 
         )
         return superAdmin

@@ -17,7 +17,10 @@ data class UserEntity(
     val birthday:String,
     val role: Role,
     val profile: List<UserProfile>? = emptyList(),
-    val matchListId: List<ObjectId>?= emptyList()
+    val matchListId: List<ObjectId>?= emptyList(),
+    var likes: Int? = 0
+
+
     )
 {
 

@@ -1,5 +1,7 @@
 package com.gustav.restaurant_app_ea.model.dto.user
 
+import org.bson.types.ObjectId
+
 
 data class UserDto(
     var username:String,
@@ -8,22 +10,24 @@ data class UserDto(
     val firstName: String,
     val lastName:String,
     val birthday:String,
-    val profile: List<UserProfileDto>? = emptyList()
+    var profile: List<UserProfileDto>? = emptyList(),
+    var matchList: List<ObjectId>?
 
-)
+
+    )
 {
 }
 data class UserProfileDto(
-    val avatar: String,
-    val bio: String,
-    val favoriteFood: List<String>,
-    val hobbies: List<String>
+    var avatar: String,
+    var bio: String,
+    var favoriteFood: List<String>,
+    var hobbies: List<String>
     )
 
 data class UserHobbyInputDto(
-    val hobbies: List<String>
+    var hobbies: List<String>
 )
 
 data class UserFavoriteFoodInputDto(
-    val favoriteFood: List<String>
+    var favoriteFood: List<String>
 )

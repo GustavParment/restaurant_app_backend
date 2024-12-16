@@ -87,7 +87,7 @@ class SecurityConfig {
             )
 
         return http.build()
-        TODO(" FIXA VALIDERING MED JWT I FILTRET ")
+
 
     }
 

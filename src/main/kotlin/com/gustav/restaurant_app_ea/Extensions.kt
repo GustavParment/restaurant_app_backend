@@ -6,7 +6,9 @@ import com.gustav.restaurant_app_ea.model.dto.restaurant.RestaurantDto
 import com.gustav.restaurant_app_ea.model.dto.user.UserDto
 import org.springframework.security.crypto.password.PasswordEncoder
 import com.gustav.restaurant_app_ea.model.dto.restaurant.ReviewDto
+import com.gustav.restaurant_app_ea.model.dto.user.ChatDto
 import com.gustav.restaurant_app_ea.model.restaurant.Review
+import com.gustav.restaurant_app_ea.model.user.ChatEntity
 import com.gustav.restaurant_app_ea.security.authorities.Role
 import java.time.LocalDateTime
 
@@ -44,7 +46,8 @@ fun UserEntity.toDto(): UserDto = UserDto(
     firstName = this.firstName,
     lastName = this.lastName,
     birthday = this.birthday,
-    profile = emptyList()
+    profile = emptyList(),
+    matchList = emptyList()
 
 )
 
@@ -99,4 +102,17 @@ fun ReviewDto.toEntity(): Review = Review(
     userName = this.userName,
     rating = this.rating,
     date = LocalDateTime.now()
+)
+
+fun ChatEntity.toDto(): ChatDto = ChatDto(
+    ownerId = this.ownerId,
+    engagedUserId = this.engagedUserId,
+    message = this.chatHistory,
+)
+
+fun ChatDto.toEntity(): ChatEntity = ChatEntity(
+    ownerId = this.ownerId,
+    engagedUserId = this.engagedUserId,
+    timestamp = LocalDateTime.now(),
+    chatHistory = this.message,
 )

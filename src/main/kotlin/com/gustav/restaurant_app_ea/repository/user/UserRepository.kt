@@ -10,4 +10,5 @@ interface UserRepository: MongoRepository<UserEntity, ObjectId> {
     fun findByUsername(username: String): UserEntity?
     fun findById(userid: String): UserEntity
     fun findAllById(userid: List<String>): List<UserEntity>
+
 }

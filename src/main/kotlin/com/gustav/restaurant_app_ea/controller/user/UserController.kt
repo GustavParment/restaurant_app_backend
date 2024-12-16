@@ -2,17 +2,15 @@ package com.gustav.restaurant_app_ea.controller.user
 
 import com.gustav.restaurant_app_ea.config.exceptionhandling.UserAlreadyExistsException
 import com.gustav.restaurant_app_ea.config.exceptionhandling.UserNotFoundException
+import com.gustav.restaurant_app_ea.model.dto.user.LikeRequest
 import com.gustav.restaurant_app_ea.model.user.UserEntity
 import com.gustav.restaurant_app_ea.model.dto.user.UserDto
 import com.gustav.restaurant_app_ea.model.user.MatchEntity
-import com.gustav.restaurant_app_ea.repository.user.UserRepository
 import com.gustav.restaurant_app_ea.service.user.MatchService
 import com.gustav.restaurant_app_ea.service.user.UserService
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter
-import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.apache.catalina.User
-import org.bson.types.ObjectId
+import jdk.jshell.spi.ExecutionControl.UserException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -191,6 +189,24 @@ class UserController(
                 .status(HttpStatus.NOT_FOUND)
                 .body(null)
         }
+    }
+
+    @PostMapping("/like")
+    fun likeUser(
+        response: HttpServletResponse,
+      @RequestBody likeRequest: LikeRequest
+
+    ): ResponseEntity<Any>
+    {
+       try {
+
+           val updateUserLikes = userService.updateLikes(likeRequest.likedUserId,likeRequest.like)
+
+           return ResponseEntity.status(HttpStatus.CREATED).body(updateUserLikes)
+
+       }catch (e : UserException){
+           return ResponseEntity.badRequest().body(null)
+       }
     }
 
 
