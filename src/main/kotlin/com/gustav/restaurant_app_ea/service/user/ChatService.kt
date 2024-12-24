@@ -4,8 +4,8 @@ import com.gustav.restaurant_app_ea.model.dto.user.ChatDto
 import com.gustav.restaurant_app_ea.model.user.ChatEntity
 
 interface ChatService {
-    fun saveChat(chatDto: ChatDto)
-    fun getChatHistory(chatDto : ChatDto): List<String>?
+    fun saveChat(chatDto: ChatDto) : ChatEntity
+    fun getAllChatForUser(userId: String): List<ChatDto>?
     fun deleteChat(chatId: String)
-    fun getAllChatsForUser(chatId: String): List<ChatEntity>?
+    fun getChatSession(ownerId: String, engagedId: String): List<ChatDto>?
 }

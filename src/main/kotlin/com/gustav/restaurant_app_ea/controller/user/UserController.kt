@@ -200,12 +200,19 @@ class UserController(
     {
        try {
 
-           val updateUserLikes = userService.updateLikes(likeRequest.likedUserId,likeRequest.like)
+           val updateUserLikes = userService.updateLikes(
+               likeRequest.likedUserId,
+               likeRequest.like
+           )
 
-           return ResponseEntity.status(HttpStatus.CREATED).body(updateUserLikes)
+           return ResponseEntity
+               .status(HttpStatus.CREATED)
+               .body(updateUserLikes)
 
        }catch (e : UserException){
-           return ResponseEntity.badRequest().body(null)
+           return ResponseEntity
+               .badRequest()
+               .body(null)
        }
     }
 

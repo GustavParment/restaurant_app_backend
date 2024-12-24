@@ -68,6 +68,7 @@ class SecurityConfig {
                     .requestMatchers("/api/v1/user/delete/{id}").hasAnyRole("SUPER_ADMIN", "ADMIN")
                     .requestMatchers("/api/v1/reservation/**").hasRole("USER")
                     .requestMatchers("/api/v1/review/**").hasRole("USER")
+                    .requestMatchers("/api/v1/chat/**").hasAnyRole("USER", "ADMIN", "SUPER_ADMIN")
                     .requestMatchers("/api/v1/user/{userId1}/{userId2}").hasAnyRole(
                         "USER", "ADMIN", "SUPER_ADMIN"
                     )

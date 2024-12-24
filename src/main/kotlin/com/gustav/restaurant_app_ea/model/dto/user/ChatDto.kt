@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 data class ChatDto(
     val ownerId: String,
-    val engagedUserId: String?,
+    val engagedUserId: String,
     val message: List<String>?
 ) {
 }

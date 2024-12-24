@@ -10,7 +10,7 @@ data class ChatEntity(
     var ownerId: String,
     var engagedUserId: String,
     var timestamp: LocalDateTime,
-    var chatHistory: List<String>
+    var chatHistory: List<String>?
 
 )
 {

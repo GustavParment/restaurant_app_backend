@@ -3,6 +3,7 @@ package com.gustav.restaurant_app_ea.controller.user
 import com.gustav.restaurant_app_ea.model.dto.user.ChatDto
 import com.gustav.restaurant_app_ea.model.user.ChatEntity
 import com.gustav.restaurant_app_ea.service.user.ChatService
+import com.gustav.restaurant_app_ea.toEntity
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -14,21 +15,42 @@ class ChatController(
     private val chatService: ChatService
 )
 {
-    @GetMapping("/all/{id}")
-    fun getAllChatForUser(
+    @GetMapping("/session/{ownerId}/{engagedId}")
+    fun getChatSession(
         response: HttpServletResponse,
-        @PathVariable id: String,
+        @PathVariable ownerId: String,
+        @PathVariable engagedId: String,
 
-        ): ResponseEntity<List<ChatEntity>>
+        ): ResponseEntity<List<ChatDto>>
     {
         return try {
-            val allChatForUser = chatService.getAllChatsForUser(id)
+            val chatSession = chatService.getChatSession(ownerId, engagedId)
 
-            ResponseEntity.status(HttpStatus.OK).body(allChatForUser)
+            ResponseEntity
+                .status(HttpStatus.OK)
+                .body(chatSession)
 
         }catch (e:Exception){
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+            ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(null)
         }
+    }
+
+    @PostMapping("/new-session/{ownerId}/{engagedId}")
+    fun newChatSession(
+        @RequestBody chat: ChatDto,
+        response: HttpServletResponse,
+    ) : ResponseEntity<ChatEntity>
+    {
+    return try {
+        val chatEntity = chatService.saveChat(chat);
+
+        ResponseEntity.status(HttpStatus.CREATED).body(chatEntity)
+
+    }catch (e:Exception){
+        ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+    }
     }
 
     @PostMapping("/send-chat")
@@ -47,4 +69,5 @@ class ChatController(
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
         }
     }
+
 }
