@@ -5,8 +5,8 @@ import java.time.LocalDateTime
 
 data class ReservationDto(
     val userId: String,
-    val restaurantId: ObjectId,
-    val reservationDate: LocalDateTime,
+    val restaurantId: String,
+    val reservationDate: String,
     val guests: Int
 
 )

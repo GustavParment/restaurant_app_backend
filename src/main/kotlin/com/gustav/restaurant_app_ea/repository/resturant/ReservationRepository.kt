@@ -6,5 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ReservationRepository:MongoRepository<ReservationEntity,ObjectId> {
+interface ReservationRepository:MongoRepository<ReservationEntity,String> {
+    fun findByUserId(userId: String): List<ReservationEntity>
 }

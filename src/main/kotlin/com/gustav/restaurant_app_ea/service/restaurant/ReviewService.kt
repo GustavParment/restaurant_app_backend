@@ -6,6 +6,6 @@ import org.bson.types.ObjectId
 import java.util.*
 
 interface ReviewService{
-    fun addReviewToRestaurant(review: ReviewDto, restaurantId: ObjectId): Review
+    fun addReviewToRestaurant(review: ReviewDto, restaurantId: String): Review
     fun getReview(restaurantId: ObjectId): List<Review>
 }

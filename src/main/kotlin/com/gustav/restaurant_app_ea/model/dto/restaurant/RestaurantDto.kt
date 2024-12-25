@@ -4,7 +4,7 @@ import com.gustav.restaurant_app_ea.model.restaurant.Review
 import org.bson.types.ObjectId
 
 data class RestaurantDto(
-    val id: ObjectId? = ObjectId(),
+    val id: String?,
     val name: String,
     val address: String,
     val phone: String,

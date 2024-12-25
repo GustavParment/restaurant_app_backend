@@ -1,14 +1,15 @@
 package com.gustav.restaurant_app_ea.service.restaurant
 
 import com.gustav.restaurant_app_ea.model.restaurant.ReservationEntity
-import org.bson.types.ObjectId
-import java.time.LocalDateTime
 
 interface ReservationService {
     fun creatReservation(
-        restaurantId: ObjectId,
+        restaurantId: String,
         userId: String,
-        date: LocalDateTime,
+        date: String,
         guests: Int
     ): ReservationEntity
+
+    fun findAllByUserId(userId: String): List<ReservationEntity>
+    fun deleteById(id: String)
 }

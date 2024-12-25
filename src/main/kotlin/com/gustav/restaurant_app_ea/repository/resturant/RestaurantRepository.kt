@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface RestaurantRepository : MongoRepository<RestaurantEntity,ObjectId>{
+interface RestaurantRepository : MongoRepository<RestaurantEntity,String>{
 }

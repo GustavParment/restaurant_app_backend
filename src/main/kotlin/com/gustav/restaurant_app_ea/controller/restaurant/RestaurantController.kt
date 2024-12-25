@@ -43,7 +43,7 @@ class RestaurantController(
     }
 
     @DeleteMapping("/remove/{id}")
-    fun deleteRestaurantById(@PathVariable("id") id: ObjectId): ResponseEntity<Any> {
+    fun deleteRestaurantById(@PathVariable("id") id: String): ResponseEntity<Any> {
         return try {
             if (restaurantService.deleteById(id)) {
                 ResponseEntity

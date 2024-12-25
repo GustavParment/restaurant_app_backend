@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 @Document(collection = "reservation")
 data class ReservationEntity(
-    @Id val id: ObjectId? = ObjectId(),
+    @Id val id: String? = null,
     val userId: String?,
-    val restaurantId: ObjectId? = ObjectId(),
-    val reservationDate: LocalDateTime,
+    val restaurantId: String?,
+    val reservationDate: String?,
     val guests: Int
 ) {
 }

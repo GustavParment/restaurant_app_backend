@@ -16,12 +16,7 @@ class ReservationServiceImpl(
     private val restaurantRepository: RestaurantRepository
 ): ReservationService {
 
-    override fun creatReservation(
-        restaurantId: ObjectId,
-        userId: String,
-        date: LocalDateTime,
-        guests: Int
-    ): ReservationEntity
+    override fun creatReservation(restaurantId: String, userId: String, date: String, guests: Int): ReservationEntity
     {
         val user = userRepository.findById(userId) ?: throw UserNotFoundException(userId)
 
@@ -37,4 +32,14 @@ class ReservationServiceImpl(
         )
         return reservationRepository.save(reservation)
     }
+
+    override fun findAllByUserId(userId: String): List<ReservationEntity> {
+      return reservationRepository.findByUserId(userId)
+    }
+
+    override fun deleteById(id: String) {
+        reservationRepository.deleteById(id)
+    }
+
+
 }

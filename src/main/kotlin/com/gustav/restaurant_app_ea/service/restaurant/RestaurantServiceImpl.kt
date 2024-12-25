@@ -23,7 +23,7 @@ class RestaurantServiceImpl (
         return restaurantRepository.findAll()
     }
 
-    override fun getById(id: ObjectId): RestaurantEntity? {
+    override fun getById(id: String): RestaurantEntity? {
         return restaurantRepository.findByIdOrNull(id)
     }
 
@@ -31,7 +31,7 @@ class RestaurantServiceImpl (
         TODO("Not yet implemented")
     }
 
-    override fun deleteById(id: ObjectId): Boolean {
+    override fun deleteById(id: String): Boolean {
         return if (restaurantRepository.existsById(id)){
             restaurantRepository.deleteById(id)
 

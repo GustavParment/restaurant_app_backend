@@ -8,9 +8,9 @@ import org.bson.types.ObjectId
 interface RestaurantService {
     fun save(restaurant : RestaurantDto) : RestaurantEntity
     fun list() : List<RestaurantEntity>
-    fun getById(id : ObjectId) : RestaurantEntity?
+    fun getById(id : String) : RestaurantEntity?
     fun update(restaurant : RestaurantEntity) : RestaurantEntity
-    fun deleteById( id : ObjectId) : Boolean
+    fun deleteById( id : String) : Boolean
 
 
 }

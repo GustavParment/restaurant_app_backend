@@ -12,7 +12,7 @@ class ReviewServiceImpl(
     private val reviewRepository: ReviewRepository)
     : ReviewService
 {
-    override fun addReviewToRestaurant(review: ReviewDto, restaurantId: ObjectId): Review {
+    override fun addReviewToRestaurant(review: ReviewDto, restaurantId: String): Review {
         val reviewEntity = review.toEntity();
 
         val savedReview = reviewRepository.save(

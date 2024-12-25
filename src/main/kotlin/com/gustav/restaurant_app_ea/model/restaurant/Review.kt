@@ -8,9 +8,9 @@ import java.time.LocalDateTime
 
 @Document(collection = "review")
 data class Review(
-    @Id val id: ObjectId = ObjectId(),
-    val restaurantId: ObjectId  = ObjectId(),
-    val userId: ObjectId = ObjectId(),
+    @Id val id: String? = null,
+    val restaurantId: String,
+    val userId: String,
     val userName: String,
     val rating: Int,
     val comment: String,

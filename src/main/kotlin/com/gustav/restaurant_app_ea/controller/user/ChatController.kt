@@ -37,7 +37,7 @@ class ChatController(
         }
     }
 
-    @PostMapping("/new-session/{ownerId}/{engagedId}")
+    @PostMapping("/new-session")
     fun newChatSession(
         @RequestBody chat: ChatDto,
         response: HttpServletResponse,
