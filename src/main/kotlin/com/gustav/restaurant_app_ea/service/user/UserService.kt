@@ -10,7 +10,7 @@ import org.bson.types.ObjectId
 
 interface UserService {
     fun create(user: UserDto): UserEntity
-    fun list(): List<UserEntity>
+    fun list(): List<UserDto>
     fun findByUsername(username: String): UserEntity?
     fun findById(id: String): UserEntity?
     fun createAdmin(user: UserDto): UserEntity

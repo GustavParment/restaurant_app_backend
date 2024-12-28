@@ -4,6 +4,7 @@ import com.gustav.restaurant_app_ea.model.dto.user.AuthenticationRequest
 import com.gustav.restaurant_app_ea.model.dto.user.AuthenticationResponse
 import com.gustav.restaurant_app_ea.security.jwt.AuthenticationService
 import com.gustav.restaurant_app_ea.service.user.UserService
+import com.gustav.restaurant_app_ea.toDto
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -117,7 +118,7 @@ class AuthController(
         if (authentication != null && authentication.isAuthenticated) {
             val username = authentication.name
             val user = userService.findByUsername(username)
-            return if (user != null) ResponseEntity.ok(user) else ResponseEntity.notFound().build()
+            return if (user != null) ResponseEntity.ok(user.toDto()) else ResponseEntity.notFound().build()
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated")
     }

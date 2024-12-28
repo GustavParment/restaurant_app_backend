@@ -37,56 +37,53 @@ class UserController(
         }
 
         return try {
+            userService.create(user)
             ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body("User CREATED successfully: " + userService.create(user))
+                .body("User CREATED successfully: " )
 
         } catch (e: Exception) {
             throw Exception("Internal Server Error")
         }
-        TODO("""
-                -Skriva Klart metoden
-                -Skriva tester för alla endpoints 8/10
-                -Se över Felhantering
-            """.trimIndent())
+
     }
 
     @RateLimiter(name = "rateLimiter")
     @GetMapping("/all")
-    fun getAll(response: HttpServletResponse): ResponseEntity<List<UserEntity>>{
+    fun getAll(response: HttpServletResponse): ResponseEntity<List<UserDto>>{
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(userService.list())
 
     }
 
-    @RateLimiter(name = "rateLimiter")
-    @GetMapping("/browse")
-        fun getAllWithRoleUser(
-        response: HttpServletResponse,
-        @RequestParam(required = false, defaultValue = "0" )
-        index: Int
-        ): ResponseEntity<UserEntity>{
-            println("Accessing endpoint")
-        if(index < 0) {
-            return ResponseEntity.badRequest().body(null)
-        }
-
-        val loggedInUser = SecurityContextHolder.getContext().authentication.name
-
-        val users = userService.list().filter { user ->
-            user
-                .role
-                .name
-                .equals("USER", ignoreCase = true)
-                    &&
-                    !user.username.equals(loggedInUser, ignoreCase = true)
-            }
-            val userAtIndex = users.getOrNull(index)
-            return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userAtIndex)
-        }
+//    @RateLimiter(name = "rateLimiter")
+//    @GetMapping("/browse")
+//        fun getAllWithRoleUser(
+//        response: HttpServletResponse,
+//        @RequestParam(required = false, defaultValue = "0" )
+//        index: Int
+//        ): ResponseEntity<UserEntity>{
+//            println("Accessing endpoint")
+//        if(index < 0) {
+//            return ResponseEntity.badRequest().body(null)
+//        }
+//
+//        val loggedInUser = SecurityContextHolder.getContext().authentication.name
+//
+//        val users = userService.list().filter { user ->
+//            user
+//                .role
+//                .name
+//                .equals("USER", ignoreCase = true)
+//                    &&
+//                    !user.username.equals(loggedInUser, ignoreCase = true)
+//            }
+//            val userAtIndex = users.getOrNull(index)
+//            return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(userAtIndex)
+//        }
 
     @RateLimiter(name = "rateLimiter")
     @DeleteMapping("/delete/{id}")
@@ -116,7 +113,7 @@ class UserController(
     ): ResponseEntity<Any>
     {
        return try {
-           println("DEBUGG: UPDATEPASSWORD-------------------------")
+
            return ResponseEntity
                .status(HttpStatus.ACCEPTED)
                .body(userService.updateUser(id,userDto))

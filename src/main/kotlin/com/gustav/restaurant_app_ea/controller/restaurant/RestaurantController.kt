@@ -3,6 +3,8 @@ package com.gustav.restaurant_app_ea.controller.restaurant
 import com.gustav.restaurant_app_ea.model.restaurant.RestaurantEntity
 import com.gustav.restaurant_app_ea.model.dto.restaurant.RestaurantDto
 import com.gustav.restaurant_app_ea.service.restaurant.RestaurantService
+import com.gustav.restaurant_app_ea.toDto
+import com.gustav.restaurant_app_ea.toRestaurantListDto
 import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,19 +15,14 @@ import org.springframework.web.bind.annotation.*
 class RestaurantController(
     private val restaurantService: RestaurantService
 ) {
-    /*
-   TODO
-    -Bygga PUT ENDPOINT
-    -TESTA PUT ENDPOINT
-    - FELHANTERING
-    * */
+
 
     @GetMapping("/all")
     fun getRestaurantFromDb(): ResponseEntity<Any> {
         return try {
             ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantService.list())
+                .body(restaurantService.list().toRestaurantListDto())
 
         } catch (e: Exception){
             e.printStackTrace()

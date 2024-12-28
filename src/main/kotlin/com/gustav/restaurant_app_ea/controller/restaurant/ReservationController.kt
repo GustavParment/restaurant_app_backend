@@ -3,6 +3,7 @@ package com.gustav.restaurant_app_ea.controller.restaurant
 import com.gustav.restaurant_app_ea.model.restaurant.ReservationEntity
 import com.gustav.restaurant_app_ea.model.dto.restaurant.ReservationDto
 import com.gustav.restaurant_app_ea.service.restaurant.ReservationService
+import com.gustav.restaurant_app_ea.toDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -18,15 +19,10 @@ class ReservationController(
     : ResponseEntity<Any>
     {
         return try {
-            val reservation: ReservationEntity = reservationService.creatReservation(
-                userId = reservationDto.userId,
-                restaurantId = reservationDto.restaurantId,
-                date = reservationDto.reservationDate,
-                guests = reservationDto.guests
-            )
+            val reservation = reservationService.creatReservation(reservationDto)
             ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(reservation)
+                .body(reservation.toDto())
 
         }catch (e: Exception){
             ResponseEntity
@@ -40,6 +36,7 @@ class ReservationController(
     fun getAllReservations(@PathVariable userId: String): ResponseEntity<List<ReservationEntity>> {
         return try {
             val reservations = reservationService.findAllByUserId(userId)
+
             ResponseEntity.status(HttpStatus.OK).body(reservations)
         } catch (e: Exception) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(emptyList())

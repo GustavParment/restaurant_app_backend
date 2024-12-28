@@ -9,7 +9,9 @@ import com.gustav.restaurant_app_ea.model.dto.user.UserFavoriteFoodInputDto
 import com.gustav.restaurant_app_ea.model.dto.user.UserHobbyInputDto
 import com.gustav.restaurant_app_ea.repository.user.UserRepository
 import com.gustav.restaurant_app_ea.toAdminEntity
+import com.gustav.restaurant_app_ea.toDto
 import com.gustav.restaurant_app_ea.toEntity
+import com.gustav.restaurant_app_ea.toUserListDto
 import org.bson.types.ObjectId
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -27,8 +29,10 @@ class UserServiceImpl(
         return userRepository.save(userEntity)
     }
 
-    override fun list(): List<UserEntity> {
-        return userRepository.findAll()
+    override fun list(): List<UserDto> {
+        val userEntityList = userRepository.findAll()
+
+        return userEntityList.toUserListDto()
     }
 
     override fun findByUsername(username: String): UserEntity? {

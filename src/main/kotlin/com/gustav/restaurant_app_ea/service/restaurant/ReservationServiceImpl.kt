@@ -1,10 +1,12 @@
 package com.gustav.restaurant_app_ea.service.restaurant
 
 import com.gustav.restaurant_app_ea.config.exceptionhandling.UserNotFoundException
+import com.gustav.restaurant_app_ea.model.dto.restaurant.ReservationDto
 import com.gustav.restaurant_app_ea.model.restaurant.ReservationEntity
 import com.gustav.restaurant_app_ea.repository.resturant.ReservationRepository
 import com.gustav.restaurant_app_ea.repository.resturant.RestaurantRepository
 import com.gustav.restaurant_app_ea.repository.user.UserRepository
+import com.gustav.restaurant_app_ea.toEntity
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -16,21 +18,18 @@ class ReservationServiceImpl(
     private val restaurantRepository: RestaurantRepository
 ): ReservationService {
 
-    override fun creatReservation(restaurantId: String, userId: String, date: String, guests: Int): ReservationEntity
+    override fun creatReservation(reservation: ReservationDto): ReservationEntity
     {
-        val user = userRepository.findById(userId) ?: throw UserNotFoundException(userId)
+        val user = userRepository.findById(reservation.userId)
 
-        val restaurant = restaurantRepository.findById(restaurantId)
-            .orElseThrow { RuntimeException("Restaurant not found") }
+        val restaurant = reservation.restaurantId?.let {
+            restaurantRepository.findById(it)
+                .orElseThrow { RuntimeException("Restaurant not found") }
+        }
 
 
-        val reservation = ReservationEntity(
-            userId = user.id,
-            restaurantId = restaurant.id,
-            reservationDate = date,
-            guests = guests
-        )
-        return reservationRepository.save(reservation)
+
+        return reservationRepository.save(reservation.toEntity())
     }
 
     override fun findAllByUserId(userId: String): List<ReservationEntity> {

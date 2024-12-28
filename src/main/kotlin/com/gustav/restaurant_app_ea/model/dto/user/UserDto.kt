@@ -4,8 +4,9 @@ import org.bson.types.ObjectId
 
 
 data class UserDto(
+    var id: String?,
     var username:String,
-    var password:String,
+    var password:String?,
     val email:String,
     val firstName: String,
     val lastName:String,
