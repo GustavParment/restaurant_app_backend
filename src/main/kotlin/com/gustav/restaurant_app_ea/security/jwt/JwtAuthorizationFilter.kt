@@ -58,11 +58,7 @@ class JwtAuthorizationFilter(
         }
 
         val cookies = request.cookies
-        cookies?.forEach {
-            if (it.name == "accessToken") {
-                println("Found accessToken in cookie: ${it.value}")
-            }
-        }
+
 
         return cookies?.firstOrNull { it.name == "accessToken" }?.value
     }

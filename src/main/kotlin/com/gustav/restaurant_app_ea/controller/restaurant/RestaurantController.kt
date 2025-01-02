@@ -16,6 +16,20 @@ class RestaurantController(
     private val restaurantService: RestaurantService
 ) {
 
+    @GetMapping("/{id}")
+    fun getRestaurantById (
+        @PathVariable id: String,
+
+    ) : ResponseEntity<RestaurantDto> {
+        return try {
+            val restaurant = restaurantService.getById(id)
+            ResponseEntity.status(HttpStatus.OK).body(restaurant?.toDto())
+
+        }catch (e : Exception){
+            e.printStackTrace()
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()
+        }
+    }
 
     @GetMapping("/all")
     fun getRestaurantFromDb(): ResponseEntity<Any> {
