@@ -23,9 +23,6 @@ class AuthController(
     private val authenticationService: AuthenticationService,
     private val userService: UserService
 ) {
-    fun `things to do in this class`(){
-        TODO("FIXA ADMIN LOGIN ENDPOINT JUST NU KAN USER LOGGA IN PÅ ADMIN SIDA")
-    }
 
     @PostMapping("/login")
     fun login(
@@ -38,11 +35,12 @@ class AuthController(
                 authenticationService.authentication(dtoRequest)
 
             val cookie = Cookie("accessToken", authResponse.accessToken)
-            cookie.isHttpOnly = true //KAN VARA ETT ISSUE!
+            cookie.isHttpOnly = true
             cookie.secure = true
             cookie.path = "/"
             cookie.maxAge = 3600000
             cookie.setAttribute("SameSite", "None")
+
 
             response.addCookie(cookie)
 
@@ -60,8 +58,10 @@ class AuthController(
     @PostMapping("/logout")
     fun logout(
         response: HttpServletResponse
+
     ): ResponseEntity<Void> {
         val cookie = Cookie("accessToken", null)
+
         cookie.isHttpOnly = true
         cookie.secure = true
         cookie.path = "/"

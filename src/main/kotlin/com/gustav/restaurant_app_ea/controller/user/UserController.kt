@@ -28,14 +28,6 @@ class UserController(
 
     @PostMapping("/signup")
     fun  create(@RequestBody user: UserDto): ResponseEntity <Any> {
-
-        val userExists: Boolean =
-            userService.findByUsername(user.username) != null
-
-        if (userExists) {
-            throw UserAlreadyExistsException("Username already exists try another username")
-        }
-
         return try {
             userService.create(user)
             ResponseEntity
@@ -57,33 +49,33 @@ class UserController(
 
     }
 
-//    @RateLimiter(name = "rateLimiter")
-//    @GetMapping("/browse")
-//        fun getAllWithRoleUser(
-//        response: HttpServletResponse,
-//        @RequestParam(required = false, defaultValue = "0" )
-//        index: Int
-//        ): ResponseEntity<UserEntity>{
-//            println("Accessing endpoint")
-//        if(index < 0) {
-//            return ResponseEntity.badRequest().body(null)
-//        }
-//
-//        val loggedInUser = SecurityContextHolder.getContext().authentication.name
-//
-//        val users = userService.list().filter { user ->
-//            user
-//                .role
-//                .name
-//                .equals("USER", ignoreCase = true)
-//                    &&
-//                    !user.username.equals(loggedInUser, ignoreCase = true)
-//            }
-//            val userAtIndex = users.getOrNull(index)
-//            return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(userAtIndex)
-//        }
+    @RateLimiter(name = "rateLimiter")
+    @GetMapping("/browse")
+        fun getAllWithRoleUser(
+        response: HttpServletResponse,
+        @RequestParam(required = false, defaultValue = "0" )
+        index: Int
+        ): ResponseEntity<UserDto>{
+            println("Accessing endpoint")
+        if(index < 0) {
+            return ResponseEntity.badRequest().body(null)
+        }
+
+        val loggedInUser = SecurityContextHolder.getContext().authentication.name
+
+        val users = userService.list().filter { user ->
+            user
+                .role
+                .name
+                .equals("USER", ignoreCase = true)
+                    &&
+                    !user.username.equals(loggedInUser, ignoreCase = true)
+            }
+            val userAtIndex = users.getOrNull(index)
+            return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userAtIndex)
+        }
 
     @RateLimiter(name = "rateLimiter")
     @DeleteMapping("/delete/{id}")

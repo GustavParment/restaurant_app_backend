@@ -1,5 +1,6 @@
 package com.gustav.restaurant_app_ea.model.dto.user
 
+import com.gustav.restaurant_app_ea.security.authorities.Role
 import org.bson.types.ObjectId
 
 
@@ -12,7 +13,8 @@ data class UserDto(
     val lastName:String,
     val birthday:String,
     var profile: List<UserProfileDto>? = emptyList(),
-    var matchList: List<ObjectId>?
+    var matchList: List<ObjectId>?,
+    val role: Role,
 
 
     )

@@ -1,5 +1,6 @@
 package com.gustav.restaurant_app_ea.service.user
 
+import com.gustav.restaurant_app_ea.config.exceptionhandling.UserAlreadyExistsException
 import com.gustav.restaurant_app_ea.security.authorities.Role
 import com.gustav.restaurant_app_ea.config.exceptionhandling.UserNotFoundException
 import com.gustav.restaurant_app_ea.model.dto.user.LikeRequest
@@ -41,6 +42,10 @@ class UserServiceImpl(
 
     override fun findById(id: String): UserEntity? {
         val userEntity = userRepository.findById(id)
+
+        if (userRepository.findByUsername(userEntity.username) != null) {
+            throw UserAlreadyExistsException("Username already exists try another username")
+        }
         return userEntity
     }
 

@@ -50,7 +50,8 @@ fun UserEntity.toDto(): UserDto = UserDto(
     lastName = this.lastName,
     birthday = this.birthday,
     profile = emptyList(),
-    matchList = emptyList()
+    matchList = emptyList(),
+    role = this.role
 
 )
 
